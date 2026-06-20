@@ -53,4 +53,8 @@
                      :migrate-on-init? true}
  :db.sql/connection #profile {:dev {:jdbc-url "jdbc:sqlite:mayachok_dev.db"},
                               :test {:jdbc-url "jdbc:sqlite:mayachok_test.db"},
-                              :prod {:jdbc-url #env JDBC_URL}}}
+                              :prod {:jdbc-url #env JDBC_URL}}
+ :reitit.routes/pages {:base-path "",
+                       :env #ig/ref :system/env}
+ :reitit.routes/ui {:base-path "",
+                    :env #ig/ref :system/env}}
