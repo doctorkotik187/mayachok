@@ -3,7 +3,14 @@
 .mascot {
   font-size: 72px;
   animation: gentleBounce 2s ease-in-out infinite;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mascot img {
+  height: 72px;
+  width: auto;
 }
 
 .landing-inner {

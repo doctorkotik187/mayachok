@@ -48,6 +48,12 @@
                 :self-harm-risk "Bitte suchen Sie sofort Hilfe. Sie sind nicht allein — Hilfe ist jetzt verfügbar."}}
           [(keyword locale) risk-level] ""))
 
+(def ^:private animals
+  ["🐻" "🐰" "🦊" "🐱" "🐶" "🦋" "🐢" "🦉" "🐧" "🐨" "🦁" "🐯" "🐸" "🐙" "🦄" "🐝" "🐞" "🦜" "🐬" "🦩"])
+
+(defn- random-animal []
+  (rand-nth animals))
+
 (defn- locale-from [request]
   (or (:locale (:params request)) (:locale (:query-params request)) "ru"))
 
@@ -73,7 +79,7 @@
         answers-json (json/write-str answers)]
     (layout/render request "question.html"
       {:locale locale :q-num q-num :question-text (:text qd) :options (:options qd)
-       :answers answers-json :progress (* 10 q-num)
+       :answers answers-json :progress (* 10 q-num) :animal (random-animal)
        :tr {:app-name (tr locale :app-name) :question-of (tr locale :question-of q-num)
             :question-title (tr locale :question-title q-num) :next-button (tr locale :next-button)
             :finish-button (tr locale :finish-button) :lang-switch (tr locale :lang-switch)}})))
