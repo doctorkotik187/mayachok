@@ -131,12 +131,14 @@
    ["/screening"               {:get show-question}]
    ["/screening/answer"        {:post submit-answer}]])
 
-(def route-data
-  {:middleware
-   [(wrap-page-defaults)
-    parameters/parameters-middleware
-    muuntaja/format-response-middleware
-    muuntaja/format-negotiate-middleware]})
+(defn- build-route-data [opts]
+  (merge
+    {:middleware
+     [(wrap-page-defaults)
+      parameters/parameters-middleware
+      muuntaja/format-response-middleware
+      muuntaja/format-negotiate-middleware]}
+    (select-keys opts [:query-fn])))
 
 (derive :reitit.routes/pages :reitit/routes)
 
@@ -145,4 +147,4 @@
       :or   {base-path ""}
       :as   opts}]
   (layout/init-selmer! opts)
-  (fn [] [base-path route-data (page-routes opts)]))
+  (fn [] [base-path (build-route-data opts) (page-routes opts)]))
