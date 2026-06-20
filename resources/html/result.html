@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ваш результат — Маячок</title>
+    <title>{{tr.result-title}}</title>
     <link href="/css/screen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -11,12 +11,12 @@
         <div class="result-card">
             <div class="result-header">
                 <div class="mascot">🐻</div>
-                <h1>Ваш результат</h1>
+                <h1>{{tr.your-result}}</h1>
             </div>
 
             <div class="score-circle" style="border-color: {{risk-color}}">
                 <span class="score-number">{{total-score}}</span>
-                <span class="score-max">/30</span>
+                <span class="score-max">{{tr.out-of}}</span>
             </div>
 
             <div class="risk-badge" style="background-color: {{risk-color}}">
@@ -27,7 +27,7 @@
 
             {% if show-crisis %}
             <div class="crisis-alert">
-                <h2>🆘 Пожалуйста, позвоните сейчас</h2>
+                <h2>{{tr.crisis-title}}</h2>
                 <p><strong>{{crisis.label}}</strong></p>
                 <p class="crisis-phone">{{crisis.phone}}</p>
                 {% if crisis.spb %}
@@ -37,7 +37,7 @@
             {% endif %}
 
             <div class="result-actions">
-                <a class="btn btn-primary" href="/">Пройти заново</a>
+                <a class="btn btn-primary" href="/">{{tr.retake}}</a>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
     [clojure.data.json :as json]
     [clojure.tools.logging :as log]
     [mayachok.mayachok.domain.epds :as epds]
+    [mayachok.mayachok.web.i18n :as i18n]
     [mayachok.mayachok.web.pages.layout :as layout]
     [mayachok.mayachok.web.routes.utils :as utils]
     [integrant.core :as ig]
@@ -53,10 +54,27 @@
           [(keyword locale) risk-level]
           ""))
 
+(defn- locale-from [request]
+  (or (:locale (:params request))
+      (:locale (:query-params request))
+      "ru"))
+
+(defn- t
+  "Get translation string for locale, with optional format args."
+  [locale k & args]
+  (let [s (i18n/t locale k)]
+    (if args
+      (apply format s args)
+      s)))
+
 ;; -- landing page -----------------------------------------------------------
 
 (defn home [request]
-  (layout/render request "home.html" {:locale "ru"}))
+  (let [locale (locale-from request)
+        tr (i18n/all-strings locale)]
+    (layout/render request "home.html"
+      {:locale locale
+       :tr tr})))
 
 ;; -- question page ----------------------------------------------------------
 
@@ -69,14 +87,21 @@
                   [])
         qs     (questions-for locale)
         qd     (get qs q-num)
-        answers-json (json/write-str answers)]
+        answers-json (json/write-str answers)
+        tr {:app-name (t locale :app-name)
+            :question-of (t locale :question-of q-num)
+            :question-title (t locale :question-title q-num)
+            :next-button (t locale :next-button)
+            :finish-button (t locale :finish-button)
+            :lang-switch (t locale :lang-switch)}]
     (layout/render request "question.html"
       {:locale locale
        :q-num q-num
        :question-text (:text qd)
        :options (:options qd)
        :answers answers-json
-       :progress (* 10 q-num)})))
+       :progress (* 10 q-num)
+       :tr tr})))
 
 ;; -- process answer, advance or show result ---------------------------------
 
@@ -88,11 +113,11 @@
         answers (json/read-str (get p "answers" "[]") :key-fn keyword)
         answers' (conj (vec answers) {:question q-num :answer idx})]
     (if (= q-num 10)
-      ;; All done — compute score, persist, show result
       (let [result (epds/score-screening answers')
             query-fn (utils/route-data-key request :query-fn)
             screening-id (str (UUID/randomUUID))
-            now (str (java.time.Instant/now))]
+            now (str (java.time.Instant/now))
+            t (i18n/all-strings locale)]
         (try
           (query-fn :create-screening!
             {:id screening-id
@@ -108,7 +133,13 @@
           (catch Exception e
             (log/error e "failed to save screening")))
         (let [risk (:risk-level result)
-              crisis (get epds/crisis-resources (keyword locale) (epds/crisis-resources :ru))]
+              crisis (get epds/crisis-resources (keyword locale) (epds/crisis-resources :ru))
+              tr {:app-name (t locale :app-name)
+                  :your-result (t locale :your-result)
+                  :result-title (t locale :result-title)
+                  :out-of (t locale :out-of)
+                  :retake (t locale :retake)
+                  :crisis-title (t locale :crisis-title)}]
           (layout/render request "result.html"
             {:locale locale
              :total-score (:total-score result)
@@ -118,8 +149,8 @@
              :risk-color (risk-color risk)
              :recommendation (risk-rec locale risk)
              :crisis crisis
-             :show-crisis (pos? (:q10-score result))})))
-      ;; More questions
+             :show-crisis (pos? (:q10-score result))
+             :tr tr})))
       (show-question {:params {:q (str (inc q-num))
                                :locale locale
                                :answers (json/write-str answers')}}))))

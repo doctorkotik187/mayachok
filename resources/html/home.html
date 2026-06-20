@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Маячок — Эдинбургская шкала послеродовой депрессии</title>
+    <title>{{tr.app-name}}</title>
     <link href="/css/screen.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="landing">
     <div class="landing-inner">
         <div class="mascot">🐻</div>
-        <h1>Маячок</h1>
-        <p class="tagline">Короткий опрос о вашем самочувствии после родов</p>
-        <p class="description">
-            Это стандартная анкета (Эдинбургская шкала послеродовой депрессии),
-            которую используют врачи по всему миру. Она помогает понять,
-            нужна ли вам дополнительная поддержка.
-        </p>
+        <h1>{{tr.app-name}}</h1>
+        <p class="tagline">{{tr.tagline}}</p>
+        <p class="description">{{tr.description}}</p>
         <form method="get" action="/screening">
-            <button class="btn btn-primary" type="submit">Начать опрос →</button>
+            <input type="hidden" name="locale" value="{{locale}}" />
+            <button class="btn btn-primary" type="submit">{{tr.start-button}}</button>
         </form>
         <div class="lang-switch">
-            <a href="/?lang=en">English</a>
+            {% if locale = "ru" %}
+            <a href="/?locale=en">{{tr.lang-switch}}</a>
+            {% else %}
+            <a href="/?locale=ru">{{tr.lang-switch}}</a>
+            {% endif %}
         </div>
     </div>
 </body>
