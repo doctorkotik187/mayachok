@@ -20,8 +20,10 @@ because nobody asks the right questions. Mayachok gives mothers a private,
 low-friction way to screen themselves — and gives clinicians a fast, structured
 tool for routine visits.
 
-Built in Saint Petersburg. Designed to work anywhere — on any device, in any
+Designed to work anywhere — on any device, in any
 language, with or without internet.
+
+![Pink Sharky](resources/public/img/pink-sharky.png)
 
 ---
 
@@ -116,7 +118,7 @@ it's the first child. No PII is stored. Clinics can use `clinic_id` and
 
 ## Credits
 
-- **Pink Sharky** — mascot and friend. Because every mother deserves a companion who's been through it.
+- **Pink Sharky** — mascot and friend. Thank you for inspiring me to make this.
 - **Bulma CSS** — for making the internet a little prettier.
 - **EPDS** — originally developed by Cox, Holden & Sagovsky (1987). This implementation uses validated translations.
 
