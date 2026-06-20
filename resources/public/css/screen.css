@@ -87,7 +87,7 @@ h1 {
 }
 
 .buttons {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 }
 
 .btn {
@@ -163,6 +163,13 @@ h1 {
 
 .lang-switch a:hover {
   color: var(--color-primary-dark);
+}
+
+.lang-sep {
+  color: var(--color-text-light);
+  opacity: 0.4;
+  margin: 0 4px;
+  font-size: 0.85rem;
 }
 
 /* ---- question screen ---- */

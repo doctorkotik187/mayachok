@@ -42,7 +42,26 @@
     :crisis-title "🆘 Please call now"
     :error-title "Error"
     :error-invalid-token "Invalid anti-forgery token"
-    :lang-switch "Русский"}})
+    :lang-switch "Русский"}
+
+   :de
+   {:app-name "Mayachok"
+    :app-title "Mayachok — Edinburgh Postnatal Depression Scale"
+    :tagline "Ein kurzer Fragebogen über Ihr Befinden nach der Geburt"
+    :description "Dies ist ein standardisierter Fragebogen (Edinburgh Postnatal Depression Scale), der weltweit von Ärzten eingesetzt wird. Er hilft zu erkennen, ob Sie zusätzliche Unterstützung benötigen."
+    :start-button "Fragebogen starten →"
+    :question-of "Frage %s von 10"
+    :question-title "Frage %s — Mayachok"
+    :next-button "Weiter →"
+    :finish-button "Abschließen"
+    :your-result "Ihr Ergebnis"
+    :result-title "Ihr Ergebnis — Mayachok"
+    :out-of "/30"
+    :retake "Erneut durchführen"
+    :crisis-title "🆘 Bitte rufen Sie jetzt an"
+    :error-title "Fehler"
+    :error-invalid-token "Ungültiges Anti-Forgery-Token"
+    :lang-switch "Deutsch"}})
 
 ;; -- Lookup -----------------------------------------------------------------
 

@@ -52,7 +52,29 @@
     9  {:text "I have been so unhappy that I have been crying"
         :options ["Yes, most of the time" "Yes, quite often" "Only occasionally" "No, never"]}
     10 {:text "The thought of harming myself has occurred to me"
-        :options ["Yes, quite often" "Sometimes" "Hardly ever" "Never"]}}})
+        :options ["Yes, quite often" "Sometimes" "Hardly ever" "Never"]}}
+
+   :de
+   {1  {:text "Ich konnte lachen und die lustigen Seiten des Lebens sehen"
+        :options ["So wie immer" "Nicht mehr so sehr" "Deutlich weniger" "Überhaupt nicht"]}
+    2  {:text "Ich habe mit Freude an die Zukunft gedacht"
+        :options ["So wie immer" "Weniger als früher" "Deutlich weniger als früher" "Kaum noch"]}
+    3  {:text "Ich habe mir unnötig Vorwürfe gemacht, wenn etwas schiefgelaufen ist"
+        :options ["Ja, die meiste Zeit" "Ja, manchmal" "Nicht sehr oft" "Nein, nie"]}
+    4  {:text "Ich war ohne Grund ängstlich oder besorgt"
+        :options ["Nein, überhaupt nicht" "Kaum je" "Ja, manchmal" "Ja, sehr oft"]}
+    5  {:text "Ich habe mich ohne Grund gefürchtet oder panisch gefühlt"
+        :options ["Ja, ziemlich oft" "Ja, manchmal" "Nicht sehr oft" "Nein, überhaupt nicht"]}
+    6  {:text "Alles hat sich aufgestaut"
+        :options ["Ja, die meiste Zeit konnte ich nicht zurechtkommen" "Ja, manchmal konnte ich nicht so gut zurechtkommen wie sonst" "Nein, die meiste Zeit habe ich gut zurechtkommen" "Nein, ich habe wie immer gut zurechtkommen"]}
+    7  {:text "Ich war so unglücklich, dass ich Schlafprobleme hatte"
+        :options ["Ja, die meiste Zeit" "Ja, manchmal" "Nicht sehr oft" "Nein, überhaupt nicht"]}
+    8  {:text "Ich habe mich traurig und elend gefühlt"
+        :options ["Ja, die meiste Zeit" "Ja, ziemlich oft" "Nicht sehr oft" "Nein, überhaupt nicht"]}
+    9  {:text "Ich war so unglücklich, dass ich geweint habe"
+        :options ["Ja, die meiste Zeit" "Ja, ziemlich oft" "Nur gelegentlich" "Nein, nie"]}
+    10 {:text "Mir ist es gekommen, mir selbst Schaden zuzufügen"
+        :options ["Ja, ziemlich oft" "Manchmal" "Kaum je" "Nie"]}}})
 
 ;; -- Crisis resources (hardcoded, never fetched from API) --------------------
 
@@ -61,7 +83,9 @@
         :label "Телефон доверия (бесплатно)"
         :spb   "004 — Экстренная психологическая помощь, Санкт-Петербург"}
    :en {:phone "988"
-        :label "Suicide & Crisis Lifeline (US)"}})
+        :label "Suicide & Crisis Lifeline (US)"}
+   :de {:phone "0800-1110111"
+        :label "Telefonseelsorge (kostenlos)"}})
 
 ;; -- Scoring functions (pure, no I/O) ---------------------------------------
 
