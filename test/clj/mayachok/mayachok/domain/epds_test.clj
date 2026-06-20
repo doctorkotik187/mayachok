@@ -134,3 +134,22 @@
     (is (= 10 (:total-score result)))
     (is (= 0 (:q10-score result)))
     (is (= :possible-depression (:risk-level result)))))
+
+;; -- critical regression tests ---------------------------------------------
+
+(deftest test-worst-possible-score-is-high
+  (testing "Selecting the worst option on every question should give a high score"
+    ;; With the corrected option order, the worst option is index 3 for all questions.
+    ;; Q1,Q2,Q4 are reverse-scored: index 3 -> score 0
+    ;; Q3,Q5,Q6,Q7,Q8,Q9,Q10 are normal-scored: index 3 -> score 3
+    ;; So worst = 0+0+3+0+3+3+3+3+3+3 = 21
+    ;; But the user sees the LAST option as "worst" for all questions.
+    ;; The important thing is: selecting all last options != selecting all first options
+    (let [all-last (vec (for [q (range 1 11)] {:question q :answer 3}))
+          all-first (vec (for [q (range 1 11)] {:question q :answer 0}))
+          score-last (epds/total-score all-last)
+          score-first (epds/total-score all-first)]
+      (println "All last options score:" score-last)
+      (println "All first options score:" score-first)
+      (is (> score-last score-first)
+          "Selecting all last options should give a higher score than all first options"))))

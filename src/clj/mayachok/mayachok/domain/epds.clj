@@ -8,73 +8,75 @@
 (def ^:private reverse-scored-questions #{1 2 4})
 
 ;; -- EPDS Questions (validated translations) ---------------------------------
+;; All options ordered from least severe (index 0, score 0) to most severe (index 3, score 3).
+;; Reverse-scored questions (1, 2, 4) invert the index: score = 3 - index.
 
 (def questions
   {:ru
    {1  {:text "Я могла смеяться и видеть смешную сторону происходящего"
-        :options ["Как всегда" "Не настолько, как раньше" "Значительно меньше, чем раньше" "Совсем не могла"]}
+        :options ["Совсем не могла" "Значительно меньше, чем раньше" "Не настолько, как раньше" "Как всегда"]}
     2  {:text "Я смотрела в будущее с удовольствием"
-        :options ["Как всегда" "Несколько меньше, чем раньше" "Значительно меньше, чем раньше" "Совсем не смотрела"]}
+        :options ["Совсем не смотрела" "Значительно меньше, чем раньше" "Несколько меньше, чем раньше" "Как всегда"]}
     3  {:text "Когда что-то шло не так, я обвиняла себя без достаточных оснований"
-        :options ["Да, большую часть времени" "Да, иногда" "Не очень часто" "Нет, никогда"]}
+        :options ["Нет, никогда" "Не очень часто" "Да, иногда" "Да, большую часть времени"]}
     4  {:text "Я чувствовала беспокойство и волнение без видимой причины"
-        :options ["Совсем нет" "Почти никогда" "Да, иногда" "Да, очень часто"]}
+        :options ["Да, очень часто" "Да, иногда" "Почти никогда" "Совсем нет"]}
     5  {:text "Я чувствовала страх или панику без видимой причины"
-        :options ["Да, довольно часто" "Да, иногда" "Не очень часто" "Совсем нет"]}
+        :options ["Совсем нет" "Не очень часто" "Да, иногда" "Да, довольно часто"]}
     6  {:text "Всё навалилось на меня"
-        :options ["Да, большую часть времени я не справлялась" "Да, иногда я не справлялась" "Нет, большую часть времени я справлялась хорошо" "Нет, я справлялась так же, как всегда"]}
+        :options ["Нет, я справлялась так же, как всегда" "Нет, большую часть времени я справлялась хорошо" "Да, иногда я не справлялась" "Да, большую часть времени я не справлялась"]}
     7  {:text "Мне было так плохо, что я плохо спала"
-        :options ["Да, большую часть времени" "Да, иногда" "Не очень часто" "Совсем нет"]}
+        :options ["Совсем нет" "Не очень часто" "Да, иногда" "Да, большую часть времени"]}
     8  {:text "Мне было грустно и я чувствовала себя несчастной"
-        :options ["Да, большую часть времени" "Да, довольно часто" "Не очень часто" "Совсем нет"]}
+        :options ["Совсем нет" "Не очень часто" "Да, довольно часто" "Да, большую часть времени"]}
     9  {:text "Я была настолько несчастна, что плакала"
-        :options ["Да, большую часть времени" "Да, довольно часто" "Только иногда" "Нет, никогда"]}
+        :options ["Нет, никогда" "Только иногда" "Да, довольно часто" "Да, большую часть времени"]}
     10 {:text "Мне приходили мысли о причинении себе вреда"
-        :options ["Да, довольно часто" "Иногда" "Почти никогда" "Никогда"]}}
+        :options ["Никогда" "Почти никогда" "Иногда" "Да, довольно часто"]}}
 
    :en
    {1  {:text "I have been able to laugh and see the funny side of things"
-        :options ["As much as I always could" "Not quite so much now" "Definitely not so much now" "Not at all"]}
+        :options ["Not at all" "Definitely not so much now" "Not quite so much now" "As much as I always could"]}
     2  {:text "I have looked forward with enjoyment to things"
-        :options ["As much as I ever did" "Rather less than I used to" "Definitely less than I used to" "Hardly at all"]}
+        :options ["Hardly at all" "Definitely less than I used to" "Rather less than I used to" "As much as I ever did"]}
     3  {:text "I have blamed myself unnecessarily when things went wrong"
-        :options ["Yes, most of the time" "Yes, some of the time" "Not very often" "No, never"]}
+        :options ["No, never" "Not very often" "Yes, some of the time" "Yes, most of the time"]}
     4  {:text "I have been anxious or worried for no good reason"
         :options ["No, not at all" "Hardly ever" "Yes, sometimes" "Yes, very often"]}
     5  {:text "I have felt scared or panicky for no very good reason"
-        :options ["Yes, quite a lot" "Yes, sometimes" "No, not much" "No, not at all"]}
+        :options ["No, not at all" "No, not much" "Yes, sometimes" "Yes, quite a lot"]}
     6  {:text "Things have been getting on top of me"
-        :options ["Yes, most of the time I haven't been able to cope at all" "Yes, sometimes I haven't been coping as well as usual" "No, most of the time I have coped quite well" "No, I have been coping as well as ever"]}
+        :options ["No, I have been coping as well as ever" "No, most of the time I have coped quite well" "Yes, sometimes I haven't been coping as well as usual" "Yes, most of the time I haven't been able to cope at all"]}
     7  {:text "I have been so unhappy that I have had difficulty sleeping"
-        :options ["Yes, most of the time" "Yes, sometimes" "Not very often" "No, not at all"]}
+        :options ["No, not at all" "Not very often" "Yes, sometimes" "Yes, most of the time"]}
     8  {:text "I have felt sad or miserable"
-        :options ["Yes, most of the time" "Yes, quite often" "Not very often" "No, not at all"]}
+        :options ["No, not at all" "Not very often" "Yes, quite often" "Yes, most of the time"]}
     9  {:text "I have been so unhappy that I have been crying"
-        :options ["Yes, most of the time" "Yes, quite often" "Only occasionally" "No, never"]}
+        :options ["No, never" "Only occasionally" "Yes, quite often" "Yes, most of the time"]}
     10 {:text "The thought of harming myself has occurred to me"
-        :options ["Yes, quite often" "Sometimes" "Hardly ever" "Never"]}}
+        :options ["Never" "Hardly ever" "Sometimes" "Yes, quite often"]}}
 
    :de
    {1  {:text "Ich konnte lachen und die lustigen Seiten des Lebens sehen"
-        :options ["So wie immer" "Nicht mehr so sehr" "Deutlich weniger" "Überhaupt nicht"]}
+        :options ["Überhaupt nicht" "Deutlich weniger" "Nicht mehr so sehr" "So wie immer"]}
     2  {:text "Ich habe mit Freude an die Zukunft gedacht"
-        :options ["So wie immer" "Weniger als früher" "Deutlich weniger als früher" "Kaum noch"]}
+        :options ["Kaum noch" "Deutlich weniger als früher" "Weniger als früher" "So wie immer"]}
     3  {:text "Ich habe mir unnötig Vorwürfe gemacht, wenn etwas schiefgelaufen ist"
-        :options ["Ja, die meiste Zeit" "Ja, manchmal" "Nicht sehr oft" "Nein, nie"]}
+        :options ["Nein, nie" "Nicht sehr oft" "Ja, manchmal" "Ja, die meiste Zeit"]}
     4  {:text "Ich war ohne Grund ängstlich oder besorgt"
-        :options ["Nein, überhaupt nicht" "Kaum je" "Ja, manchmal" "Ja, sehr oft"]}
+        :options ["Ja, sehr oft" "Ja, manchmal" "Kaum je" "Nein, überhaupt nicht"]}
     5  {:text "Ich habe mich ohne Grund gefürchtet oder panisch gefühlt"
-        :options ["Ja, ziemlich oft" "Ja, manchmal" "Nicht sehr oft" "Nein, überhaupt nicht"]}
+        :options ["Nein, überhaupt nicht" "Nicht sehr oft" "Ja, manchmal" "Ja, ziemlich oft"]}
     6  {:text "Alles hat sich aufgestaut"
-        :options ["Ja, die meiste Zeit konnte ich nicht zurechtkommen" "Ja, manchmal konnte ich nicht so gut zurechtkommen wie sonst" "Nein, die meiste Zeit habe ich gut zurechtkommen" "Nein, ich habe wie immer gut zurechtkommen"]}
+        :options ["Nein, ich habe wie immer gut zurechtkommen" "Nein, die meiste Zeit habe ich gut zurechtkommen" "Ja, manchmal konnte ich nicht so gut zurechtkommen wie sonst" "Ja, die meiste Zeit konnte ich nicht zurechtkommen"]}
     7  {:text "Ich war so unglücklich, dass ich Schlafprobleme hatte"
-        :options ["Ja, die meiste Zeit" "Ja, manchmal" "Nicht sehr oft" "Nein, überhaupt nicht"]}
+        :options ["Nein, überhaupt nicht" "Nicht sehr oft" "Ja, manchmal" "Ja, die meiste Zeit"]}
     8  {:text "Ich habe mich traurig und elend gefühlt"
-        :options ["Ja, die meiste Zeit" "Ja, ziemlich oft" "Nicht sehr oft" "Nein, überhaupt nicht"]}
+        :options ["Nein, überhaupt nicht" "Nicht sehr oft" "Ja, ziemlich oft" "Ja, die meiste Zeit"]}
     9  {:text "Ich war so unglücklich, dass ich geweint habe"
-        :options ["Ja, die meiste Zeit" "Ja, ziemlich oft" "Nur gelegentlich" "Nein, nie"]}
+        :options ["Nein, nie" "Nur gelegentlich" "Ja, ziemlich oft" "Ja, die meiste Zeit"]}
     10 {:text "Mir ist es gekommen, mir selbst Schaden zuzufügen"
-        :options ["Ja, ziemlich oft" "Manchmal" "Kaum je" "Nie"]}}})
+        :options ["Nie" "Kaum je" "Manchmal" "Ja, ziemlich oft"]}}})
 
 ;; -- Crisis resources (hardcoded, never fetched from API) --------------------
 
@@ -88,27 +90,22 @@
         :label "Telefonseelsorge (kostenlos)"}})
 
 ;; -- Scoring functions (pure, no I/O) ---------------------------------------
+;; All options ordered least severe (index 0) to most severe (index 3).
+;; Q1, Q2, Q4 are reverse-scored: score = 3 - index.
+;; All other questions: score = index.
 
-(defn score-answer
-  "Scores a single EPDS answer. Questions 1, 2, 4 are reverse-scored.
-   answer-index is 0-3 as provided by the user."
-  [question-number answer-index]
-  (if (contains? reverse-scored-questions question-number)
-    (- 3 answer-index)
-    answer-index))
+(defn score-answer [q-idx answer-idx]
+  (if (contains? reverse-scored-questions q-idx)
+    (- 3 answer-idx)
+    answer-idx))
 
-(defn total-score
-  "Calculates total EPDS score from a vector of answers.
-   Each answer is a map with :question (1-10) and :answer (0-3)."
-  [answers]
+(defn total-score [answers]
   (->> answers
        (map (fn [{:keys [question answer]}]
               (score-answer question answer)))
        (reduce +)))
 
-(defn q10-score
-  "Extracts the Q10 score from answers vector."
-  [answers]
+(defn q10-score [answers]
   (->> answers
        (filter #(= 10 (:question %)))
        first
