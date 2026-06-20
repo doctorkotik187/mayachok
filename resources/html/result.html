@@ -1,101 +1,95 @@
-<!DOCTYPE html>
-<html lang="{{locale}}">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{tr.result-title}}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-    <section class="section">
-        <div class="container result-container">
-            <div class="card result-card">
-                <div class="card-content has-text-centered">
-                    <div class="mascot">🐻</div>
-                    <h1 class="title is-3">{{tr.your-result}}</h1>
+{% extends "base.html" %}
 
-                    <div class="score-circle" style="border-color: {{risk-color}}">
-                        <span class="score-number">{{total-score}}</span>
-                        <span class="score-max">{{tr.out-of}}</span>
-                    </div>
+{% block title %}{{tr.result-title}}{% endblock %}
 
-                    <div class="risk-badge" style="background-color: {{risk-color}}">
-                        {{risk-label}}
-                    </div>
+{% block body %}
+<section class="section">
+    <div class="container result-container">
+        <div class="card result-card">
+            <div class="card-content has-text-centered">
+                <div class="mascot">🐻</div>
+                <h1 class="title is-3">{{tr.your-result}}</h1>
 
-                    <p class="content recommendation">{{recommendation}}</p>
+                <div class="score-circle" style="border-color: {{risk-color}}">
+                    <span class="score-number">{{total-score}}</span>
+                    <span class="score-max">{{tr.out-of}}</span>
+                </div>
 
-                    {% if show-crisis %}
-                    <div class="notification is-danger crisis-alert">
-                        <h2 class="title is-5">{{tr.crisis-title}}</h2>
-                        <p><strong>{{crisis.label}}</strong></p>
-                        <p class="crisis-phone">{{crisis.phone}}</p>
-                        {% if crisis.spb %}
-                        <p>{{crisis.spb}}</p>
-                        {% endif %}
-                    </div>
+                <div class="risk-badge" style="background-color: {{risk-color}}">
+                    {{risk-label}}
+                </div>
+
+                <p class="content recommendation">{{recommendation}}</p>
+
+                {% if show-crisis %}
+                <div class="notification is-danger crisis-alert">
+                    <h2 class="title is-5">{{tr.crisis-title}}</h2>
+                    <p><strong>{{crisis.label}}</strong></p>
+                    <p class="crisis-phone">{{crisis.phone}}</p>
+                    {% if crisis.spb %}
+                    <p>{{crisis.spb}}</p>
                     {% endif %}
+                </div>
+                {% endif %}
 
-                    <div class="box survey">
-                        <h3 class="title is-6">{{tr.survey-title}}</h3>
-                        <p class="survey-hint">{{tr.survey-hint}}</p>
-                        <form method="post" action="/api/screenings/{{screening-id}}/survey">
-                            {% csrf-field %}
-                            <div class="field">
-                                <label class="label">{{tr.survey-age}}</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select name="age_range">
-                                            <option value="">{{tr.survey-skip}}</option>
-                                            <option value="18-24">18-24</option>
-                                            <option value="25-34">25-34</option>
-                                            <option value="35-44">35-44</option>
-                                            <option value="45+">45+</option>
-                                        </select>
-                                    </div>
+                <div class="box survey">
+                    <h3 class="title is-6">{{tr.survey-title}}</h3>
+                    <p class="survey-hint">{{tr.survey-hint}}</p>
+                    <form method="post" action="/api/screenings/{{screening-id}}/survey">
+                        {% csrf-field %}
+                        <div class="field">
+                            <label class="label">{{tr.survey-age}}</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="age_range">
+                                        <option value="">{{tr.survey-skip}}</option>
+                                        <option value="18-24">18-24</option>
+                                        <option value="25-34">25-34</option>
+                                        <option value="35-44">35-44</option>
+                                        <option value="45+">45+</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">{{tr.survey-birth}}</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select name="time_since_birth">
-                                            <option value="">{{tr.survey-skip}}</option>
-                                            <option value="0-6w">{{tr.survey-birth-0-6w}}</option>
-                                            <option value="6w-3m">{{tr.survey-birth-6w-3m}}</option>
-                                            <option value="3-6m">{{tr.survey-birth-3-6m}}</option>
-                                            <option value="6m+">{{tr.survey-birth-6m+}}</option>
-                                        </select>
-                                    </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">{{tr.survey-birth}}</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="time_since_birth">
+                                        <option value="">{{tr.survey-skip}}</option>
+                                        <option value="0-6w">{{tr.survey-birth-0-6w}}</option>
+                                        <option value="6w-3m">{{tr.survey-birth-6w-3m}}</option>
+                                        <option value="3-6m">{{tr.survey-birth-3-6m}}</option>
+                                        <option value="6m+">{{tr.survey-birth-6m+}}</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">{{tr.survey-first}}</label>
-                                <div class="control">
-                                    <div class="select is-fullwidth">
-                                        <select name="first_child">
-                                            <option value="">{{tr.survey-skip}}</option>
-                                            <option value="yes">{{tr.survey-yes}}</option>
-                                            <option value="no">{{tr.survey-no}}</option>
-                                        </select>
-                                    </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">{{tr.survey-first}}</label>
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select name="first_child">
+                                        <option value="">{{tr.survey-skip}}</option>
+                                        <option value="yes">{{tr.survey-yes}}</option>
+                                        <option value="no">{{tr.survey-no}}</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="field">
-                                <div class="control">
-                                    <button class="button is-light is-rounded" type="submit">{{tr.survey-submit}}</button>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-light is-rounded" type="submit">{{tr.survey-submit}}</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                </div>
 
-                    <div class="buttons is-centered">
-                        <a class="button is-primary is-rounded" href="/">{{tr.retake}}</a>
-                    </div>
+                <div class="buttons is-centered">
+                    <a class="button is-primary is-rounded" href="/">{{tr.retake}}</a>
                 </div>
             </div>
         </div>
-    </section>
-</body>
-</html>
+    </div>
+</section>
+{% endblock %}

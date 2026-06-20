@@ -1,23 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Error</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-    <section class="section">
-        <div class="container">
-            <div class="notification is-danger">
-                <h1 class="title is-4">Error: {{status}}</h1>
-                {% if title %}
-                <h2 class="title is-5">{{title}}</h2>
-                {% endif %}
-                {% if message %}
-                <p>{{message}}</p>
-                {% endif %}
-            </div>
+{% extends "base.html" %}
+
+{% block title %}Error{% endblock %}
+
+{% block body %}
+<section class="section">
+    <div class="container">
+        <div class="notification is-danger">
+            <h1 class="title is-4">Error: {{status}}</h1>
+            {% if title %}
+            <h2 class="title is-5">{{title}}</h2>
+            {% endif %}
+            {% if message %}
+            <p>{{message}}</p>
+            {% endif %}
         </div>
-    </section>
-</body>
-</html>
+    </div>
+</section>
+{% endblock %}

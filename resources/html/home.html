@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="{{locale}}">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{tr.app-title}}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
-</head>
+{% extends "base.html" %}
+
+{% block title %}{{tr.app-title}}{% endblock %}
+
+{% block body %}
 <body class="landing">
     <section class="hero is-fullheight">
         <div class="hero-body">
@@ -40,4 +36,4 @@
         </div>
     </section>
 </body>
-</html>
+{% endblock %}
