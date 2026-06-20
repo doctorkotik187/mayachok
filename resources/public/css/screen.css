@@ -80,12 +80,18 @@
   appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid;
+  border: 2px solid #888;
   border-radius: 50%;
   margin-right: 14px;
   flex-shrink: 0;
   transition: all 0.3s ease;
   position: relative;
+  background: white;
+}
+
+.option input[type="radio"]:checked {
+  border-color: hsl(130, 25%, 55%);
+  background: hsl(130, 25%, 55%);
 }
 
 .option input[type="radio"]:checked::after {
@@ -96,7 +102,24 @@
   transform: translate(-50%, -50%);
   width: 8px;
   height: 8px;
+  background: white;
   border-radius: 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .option input[type="radio"] {
+    border-color: #666;
+    background: #2a2a2a;
+  }
+
+  .option input[type="radio"]:checked {
+    border-color: hsl(130, 25%, 55%);
+    background: hsl(130, 25%, 55%);
+  }
+
+  .option input[type="radio"]:checked::after {
+    background: white;
+  }
 }
 
 .result-container {
