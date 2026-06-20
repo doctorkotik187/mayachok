@@ -45,7 +45,9 @@
    ["/screenings"
     {:post {:handler #'screening/create-screening!}}]
    ["/screenings/:id"
-    {:get {:handler #'screening/get-screening}}]])
+    {:get {:handler #'screening/get-screening}}]
+   ["/screenings/:id/survey"
+    {:post {:handler #'screening/update-survey!}}]])
 
 (derive :reitit.routes/api :reitit/routes)
 

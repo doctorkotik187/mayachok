@@ -59,3 +59,18 @@
     (if-let [screening (query-fn :get-screening-by-id {:id id})]
       (http-response/ok screening)
       (http-response/not-found {:error "Screening not found"}))))
+
+(defn update-survey!
+  [request]
+  (let [query-fn   (utils/route-data-key request :query-fn)
+        id        (get-in request [:path-params :id])
+        form      (:form-params request)
+        age-range  (get form "age_range")
+        time-since (get form "time_since_birth")
+        first-child (get form "first_child")]
+    (try
+      (query-fn :update-survey! {:id id :age_range age-range :time_since_birth time-since :first_child first-child})
+      (http-response/ok {:ok true})
+      (catch Exception e
+        (log/error e "failed to update survey")
+        (http-response/internal-server-error {:error "Failed to update survey"})))))

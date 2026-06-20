@@ -97,6 +97,7 @@
             {:id screening-id :created_at now :locale locale :mode "self"
              :answers (json/write-str answers') :total_score (:total-score result)
              :q10_score (:q10-score result) :risk_level (name (:risk-level result))
+             :age_range nil :time_since_birth nil :first_child nil
              :clinic_id nil :patient_ref nil})
           (catch Exception e (log/error e "failed to save screening")))
         (let [risk   (:risk-level result)
@@ -105,10 +106,19 @@
             {:locale locale :total-score (:total-score result) :q10-score (:q10-score result)
              :risk-level risk :risk-label (risk-label locale risk) :risk-color (risk-color risk)
              :recommendation (risk-rec locale risk) :crisis crisis
-             :show-crisis (pos? (:q10-score result))
+             :show-crisis (pos? (:q10-score result)) :screening-id screening-id
              :tr {:app-name (tr locale :app-name) :your-result (tr locale :your-result)
                   :result-title (tr locale :result-title) :out-of (tr locale :out-of)
-                  :retake (tr locale :retake) :crisis-title (tr locale :crisis-title)}})))
+                  :retake (tr locale :retake) :crisis-title (tr locale :crisis-title)
+                  :survey-title (tr locale :survey-title) :survey-hint (tr locale :survey-hint)
+                  :survey-age (tr locale :survey-age) :survey-birth (tr locale :survey-birth)
+                  :survey-first (tr locale :survey-first) :survey-skip (tr locale :survey-skip)
+                  :survey-yes (tr locale :survey-yes) :survey-no (tr locale :survey-no)
+                  :survey-submit (tr locale :survey-submit)
+                  :survey-birth-0-6w (tr locale :survey-birth-0-6w)
+                  :survey-birth-6w-3m (tr locale :survey-birth-6w-3m)
+                  :survey-birth-3-6m (tr locale :survey-birth-3-6m)
+                  :survey-birth-6m+ (tr locale :survey-birth-6m+)}})))
       (show-question {:params {:q (str (inc q-num)) :locale locale
                                :answers (json/write-str answers')}}))))
 

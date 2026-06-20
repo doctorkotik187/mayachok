@@ -23,7 +23,20 @@
     :crisis-title "🆘 Пожалуйста, позвоните сейчас"
     :error-title "Ошибка"
     :error-invalid-token "Недействительный токен защиты"
-    :lang-switch "English"}
+    :lang-switch "English"
+    :survey-title "Анонимный опрос"
+    :survey-hint "Помогите нам лучше понять мам. Все данные анонимны."
+    :survey-age "Ваш возраст"
+    :survey-birth "Время с родов"
+    :survey-first "Первый ребёнок?"
+    :survey-skip "Предпочитаю не отвечать"
+    :survey-yes "Да, первый ребёнок"
+    :survey-no "Нет, у меня есть другие дети"
+    :survey-submit "Отправить (необязательно)"
+    :survey-birth-0-6w "0-6 недель"
+    :survey-birth-6w-3m "6 недель - 3 месяца"
+    :survey-birth-3-6m "3-6 месяцев"
+    :survey-birth-6m+ "6+ месяцев"}
 
    :en
    {:app-name "Mayachok"
@@ -42,7 +55,20 @@
     :crisis-title "🆘 Please call now"
     :error-title "Error"
     :error-invalid-token "Invalid anti-forgery token"
-    :lang-switch "Русский"}
+    :lang-switch "Русский"
+    :survey-title "Anonymous Survey"
+    :survey-hint "Help us understand mothers better. All data is anonymous."
+    :survey-age "Your age range"
+    :survey-birth "Time since birth"
+    :survey-first "First child?"
+    :survey-skip "Prefer not to say"
+    :survey-yes "Yes, first child"
+    :survey-no "No, I have other children"
+    :survey-submit "Submit (optional)"
+    :survey-birth-0-6w "0-6 weeks"
+    :survey-birth-6w-3m "6 weeks - 3 months"
+    :survey-birth-3-6m "3-6 months"
+    :survey-birth-6m+ "6+ months"}
 
    :de
    {:app-name "Mayachok"
@@ -61,7 +87,21 @@
     :crisis-title "🆘 Bitte rufen Sie jetzt an"
     :error-title "Fehler"
     :error-invalid-token "Ungültiges Anti-Forgery-Token"
-    :lang-switch "Deutsch"}})
+    :lang-switch "Deutsch"
+
+    :survey-title "Anonymous Survey"
+    :survey-hint "Help us understand mothers better. All data is anonymous."
+    :survey-age "Your age range"
+    :survey-birth "Time since birth"
+    :survey-first "First child?"
+    :survey-skip "Prefer not to say"
+    :survey-yes "Yes, first child"
+    :survey-no "No, I have other children"
+    :survey-submit "Submit (optional)"
+    :survey-birth-0-6w "0-6 weeks"
+    :survey-birth-6w-3m "6 weeks - 3 months"
+    :survey-birth-3-6m "3-6 months"
+    :survey-birth-6m+ "6+ months"}})
 
 ;; -- Lookup -----------------------------------------------------------------
 

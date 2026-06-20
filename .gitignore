@@ -20,4 +20,4 @@ modules/
 .lsp/
 resources/public/js/
 
-mayachok_dev.db
+mayachok_*.db
