@@ -36,7 +36,8 @@
     :survey-birth-0-6w "0-6 недель"
     :survey-birth-6w-3m "6 недель - 3 месяца"
     :survey-birth-3-6m "3-6 месяцев"
-    :survey-birth-6m+ "6+ месяцев"}
+    :survey-birth-6m+ "6+ месяцев"
+    :open-source "Это проект с открытым кодом."}
 
    :en
    {:app-name "Mayachok"
@@ -101,7 +102,8 @@
     :survey-birth-0-6w "0-6 weeks"
     :survey-birth-6w-3m "6 weeks - 3 months"
     :survey-birth-3-6m "3-6 months"
-    :survey-birth-6m+ "6+ months"}})
+    :survey-birth-6m+ "6+ months"
+    :open-source "This is an open source project."}})
 
 ;; -- Lookup -----------------------------------------------------------------
 

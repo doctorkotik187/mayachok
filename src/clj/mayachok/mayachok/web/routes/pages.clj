@@ -116,6 +116,7 @@
              :tr {:app-name (tr locale :app-name) :your-result (tr locale :your-result)
                   :result-title (tr locale :result-title) :out-of (tr locale :out-of)
                   :retake (tr locale :retake) :crisis-title (tr locale :crisis-title)
+                  :open-source (tr locale :open-source)
                   :survey-title (tr locale :survey-title) :survey-hint (tr locale :survey-hint)
                   :survey-age (tr locale :survey-age) :survey-birth (tr locale :survey-birth)
                   :survey-first (tr locale :survey-first) :survey-skip (tr locale :survey-skip)
