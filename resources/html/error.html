@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Something Bad Happened</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div>
-        <h1>Error: {{status}}</h1>
-        <hr>
-        {% if title %}
-        <h2>{{title}}</h2>
-        {% endif %}
-        {% if message %}
-        <h4>{{message}}</h4>
-        {% endif %}
-    </div>
+    <section class="section">
+        <div class="container">
+            <div class="notification is-danger">
+                <h1 class="title is-4">Error: {{status}}</h1>
+                {% if title %}
+                <h2 class="title is-5">{{title}}</h2>
+                {% endif %}
+                {% if message %}
+                <p>{{message}}</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
 </body>
 </html>

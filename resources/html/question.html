@@ -4,41 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{tr.question-title}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <link href="/css/screen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div id="screen" class="question-container">
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: {{progress}}%"></div>
-            <span class="progress-text">{{q-num}}/10</span>
+    <section class="section">
+        <div class="container question-container">
+            <div class="progress-bar">
+                <progress class="progress is-primary" value="{{progress}}" max="100">{{progress}}%</progress>
+                <span class="progress-text">{{q-num}}/10</span>
+            </div>
+
+            <h2 class="title is-5 question-number">{{tr.question-of}}</h2>
+            <h3 class="title is-4 question-text">{{question-text}}</h3>
+
+            <form method="post" action="/screening/answer">
+                {% csrf-field %}
+                <input type="hidden" name="locale" value="{{locale}}" />
+                <input type="hidden" name="q" value="{{q-num}}" />
+                <input type="hidden" name="answers" value='{{answers}}' />
+
+                <div class="options">
+                    {% for option in options %}
+                    {% with idx=forloop.counter0 %}
+                    <label class="option">
+                        <input type="radio" name="answer" value="{{idx}}" required />
+                        <span class="option-text">{{option}}</span>
+                    </label>
+                    {% endwith %}
+                    {% endfor %}
+                </div>
+
+                <div class="buttons is-right">
+                    <button class="button is-primary is-rounded" type="submit">
+                        {% if q-num = 10 %}{{tr.finish-button}}{% else %}{{tr.next-button}}{% endif %}
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <form class="question-form" method="post" action="/screening/answer">
-            {% csrf-field %}
-            <input type="hidden" name="locale" value="{{locale}}" />
-            <input type="hidden" name="q" value="{{q-num}}" />
-            <input type="hidden" name="answers" value='{{answers}}' />
-
-            <div class="question-number">{{tr.question-of}}</div>
-            <h2 class="question-text">{{question-text}}</h2>
-
-            <div class="options">
-                {% for option in options %}
-                {% with idx=forloop.counter0 %}
-                <label class="option">
-                    <input type="radio" name="answer" value="{{idx}}" required />
-                    <span class="option-text">{{option}}</span>
-                </label>
-                {% endwith %}
-                {% endfor %}
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-next" type="submit">
-                    {% if q-num = 10 %}{{tr.finish-button}}{% else %}{{tr.next-button}}{% endif %}
-                </button>
-            </div>
-        </form>
-    </div>
+    </section>
 </body>
 </html>
