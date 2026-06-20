@@ -19,3 +19,5 @@ modules/
 .calva/output-window/
 .lsp/
 resources/public/js/
+
+mayachok_dev.db
