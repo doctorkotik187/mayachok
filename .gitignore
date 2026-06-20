@@ -15,7 +15,7 @@ modules/
 *.bak
 
 # clj-kondo
-.clj-kondo/.cache/
+.clj-kondo/
 .calva/output-window/
-.lsp/.cache/
+.lsp/
 resources/public/js/
