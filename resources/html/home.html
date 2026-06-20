@@ -1,22 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{locale}}">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="todo: describe app here">
-    <title>Welcome to mayachok</title>
-
-    <!-- styles -->
+    <title>Маячок — Эдинбургская шкала послеродовой депрессии</title>
     <link href="/css/screen.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-    <!-- navbar -->
-    <nav>
-    </nav>
-    <section>
-        <div class="content">
-            <h2>Hello World!</h2>
+<body class="landing">
+    <div class="landing-inner">
+        <div class="mascot">🐻</div>
+        <h1>Маячок</h1>
+        <p class="tagline">Короткий опрос о вашем самочувствии после родов</p>
+        <p class="description">
+            Это стандартная анкета (Эдинбургская шкала послеродовой депрессии),
+            которую используют врачи по всему миру. Она помогает понять,
+            нужна ли вам дополнительная поддержка.
+        </p>
+        <form method="get" action="/screening">
+            <button class="btn btn-primary" type="submit">Начать опрос →</button>
+        </form>
+        <div class="lang-switch">
+            <a href="/?lang=en">English</a>
         </div>
-    </section>
+    </div>
 </body>
 </html>

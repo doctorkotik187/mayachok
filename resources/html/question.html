@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="{{locale}}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Вопрос {{q-num}} — Маячок</title>
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="screen" class="question-container">
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{progress}}%"></div>
+            <span class="progress-text">{{q-num}}/10</span>
+        </div>
+
+        <form class="question-form" method="post" action="/screening/answer">
+            {% csrf-field %}
+            <input type="hidden" name="locale" value="{{locale}}" />
+            <input type="hidden" name="q" value="{{q-num}}" />
+            <input type="hidden" name="answers" value='{{answers}}' />
+
+            <div class="question-number">Вопрос {{q-num}} из 10</div>
+            <h2 class="question-text">{{question-text}}</h2>
+
+            <div class="options">
+                {% for option in options %}
+                {% with idx=forloop.counter0 %}
+                <label class="option">
+                    <input type="radio" name="answer" value="{{idx}}" required />
+                    <span class="option-text">{{option}}</span>
+                </label>
+                {% endwith %}
+                {% endfor %}
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-next" type="submit">
+                    {% if q-num = 10 %}Завершить{% else %}Далее →{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -10,11 +10,10 @@
    [mayachok.mayachok.web.handler]
 
     ;; Routes
-   [mayachok.mayachok.web.routes.api] 
-    [kit.edge.db.sql.conman] 
-    [kit.edge.db.sql.migratus] 
-    [mayachok.mayachok.web.routes.pages] 
-    [mayachok.mayachok.web.routes.ui])
+   [mayachok.mayachok.web.routes.api]
+    [kit.edge.db.sql.conman]
+    [kit.edge.db.sql.migratus]
+    [mayachok.mayachok.web.routes.pages])
   (:gen-class))
 
 ;; log uncaught exceptions in threads
