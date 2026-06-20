@@ -24,10 +24,12 @@
 
             <div class="options">
                 {% for option in options %}
+                {% with idx=forloop.counter0 %}
                 <label class="option">
-                    <input type="radio" name="answer" value="{{forloop.index0}}" required />
+                    <input type="radio" name="answer" value="{{idx}}" required />
                     <span class="option-text">{{option}}</span>
                 </label>
+                {% endwith %}
                 {% endfor %}
             </div>
 
