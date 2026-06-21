@@ -218,7 +218,8 @@
     (layout/render request "heatmap.html"
       {:locale locale
        :tr (i18n/all-strings locale)
-       :data (json/write-str data)})))
+       :data data
+       :data-json (json/write-str data)})))
 
 ;; -- routes -----------------------------------------------------------------
 

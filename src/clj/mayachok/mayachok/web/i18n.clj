@@ -9,6 +9,8 @@
   {:ru
    {:app-name "Маячок"
     :app-title "Маячок — Эдинбургская шкала послеродовой депрессии"
+    :nav-home "Главная"
+    :nav-map "Карта"
     :tagline "Короткий опрос о вашем самочувствии после родов"
     :description "Это стандартная анкета (Эдинбургская шкала послеродовой депрессии), которую используют врачи по всему миру. Она помогает понять, нужна ли вам дополнительная поддержка."
     :start-button "Начать опрос →"
@@ -54,6 +56,8 @@
    :en
    {:app-name "Mayachok"
     :app-title "Mayachok — Edinburgh Postnatal Depression Scale"
+    :nav-home "Home"
+    :nav-map "Map"
     :tagline "A brief questionnaire about how you've been feeling after childbirth"
     :description "This is a standard questionnaire (Edinburgh Postnatal Depression Scale) used by clinicians worldwide. It helps determine whether you might benefit from additional support."
     :start-button "Start questionnaire →"
@@ -107,6 +111,8 @@
    :de
    {:app-name "Mayachok"
     :app-title "Mayachok — Edinburgh Postnatal Depression Scale"
+    :nav-home "Startseite"
+    :nav-map "Karte"
     :tagline "Ein kurzer Fragebogen über Ihr Befinden nach der Geburt"
     :description "Dies ist ein standardisierter Fragebogen (Edinburgh Postnatal Depression Scale), der weltweit von Ärzten eingesetzt wird. Er hilft zu erkennen, ob Sie zusätzliche Unterstützung benötigen."
     :start-button "Fragebogen starten →"
@@ -160,6 +166,8 @@
    :uk
    {:app-name "Маячок"
     :app-title "Маячок — Единбурзька шкала післяполової депресії"
+    :nav-home "Головна"
+    :nav-map "Карта"
     :tagline "Коротке опитування про ваше самопочуття після пологів"
     :description "Це стандартна анкета (Единбурзька шкала післяполової депресії), яку використовують лікарі по всьому світу. Вона допомагає зрозуміти, чи потрібна вам додаткова підтримка."
     :start-button "Почати опитування →"
