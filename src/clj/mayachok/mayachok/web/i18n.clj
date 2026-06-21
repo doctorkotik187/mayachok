@@ -103,7 +103,40 @@
     :survey-birth-6w-3m "6 weeks - 3 months"
     :survey-birth-3-6m "3-6 months"
     :survey-birth-6m+ "6+ months"
-    :open-source "This is an open source project."}})
+    :open-source "This is an open source project."}
+
+   :uk
+   {:app-name "Маячок"
+    :app-title "Маячок — Единбурзька шкала післяполової депресії"
+    :tagline "Коротке опитування про ваше самопочуття після пологів"
+    :description "Це стандартна анкета (Единбурзька шкала післяполової депресії), яку використовують лікарі по всьому світу. Вона допомагає зрозуміти, чи потрібна вам додаткова підтримка."
+    :start-button "Почати опитування →"
+    :question-of "Питання %s з 10"
+    :question-title "Питання %s — Маячок"
+    :next-button "Далі →"
+    :finish-button "Завершити"
+    :your-result "Ваш результат"
+    :result-title "Ваш результат — Маячок"
+    :out-of "/30"
+    :retake "Пройти знову"
+    :crisis-title "🆘 Будь ласка, зателефонуйте зараз"
+    :error-title "Помилка"
+    :error-invalid-token "Недійсний токен захисту"
+    :lang-switch "Українська"
+    :survey-title "Анонімне опитування"
+    :survey-hint "Допоможіть нам краще зрозуміти мам. Усі дані анонімні."
+    :survey-age "Ваш вік"
+    :survey-birth "Час після пологів"
+    :survey-first "Перша дитина?"
+    :survey-skip "Віддаю перевагу не відповідати"
+    :survey-yes "Так, перша дитина"
+    :survey-no "Ні, у мене є інші діти"
+    :survey-submit "Надіслати (необов'язково)"
+    :survey-birth-0-6w "0-6 тижнів"
+    :survey-birth-6w-3m "6 тижнів - 3 місяці"
+    :survey-birth-3-6m "3-6 місяців"
+    :survey-birth-6m+ "6+ місяців"
+    :open-source "Це проект з відкритим кодом."}})
 
 ;; -- Lookup -----------------------------------------------------------------
 

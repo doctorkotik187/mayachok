@@ -42,7 +42,7 @@
     3  {:text "I have blamed myself unnecessarily when things went wrong"
         :options ["No, never" "Not very often" "Yes, some of the time" "Yes, most of the time"]}
     4  {:text "I have been anxious or worried for no good reason"
-        :options ["No, not at all" "Hardly ever" "Yes, sometimes" "Yes, very often"]}
+        :options ["Yes, very often" "Yes, sometimes" "Hardly ever" "No, not at all"]}
     5  {:text "I have felt scared or panicky for no very good reason"
         :options ["No, not at all" "No, not much" "Yes, sometimes" "Yes, quite a lot"]}
     6  {:text "Things have been getting on top of me"
@@ -55,6 +55,28 @@
         :options ["No, never" "Only occasionally" "Yes, quite often" "Yes, most of the time"]}
     10 {:text "The thought of harming myself has occurred to me"
         :options ["Never" "Hardly ever" "Sometimes" "Yes, quite often"]}}
+
+   :uk
+   {1  {:text "Я могла сміятися і бачити смішну сторону того, що відбувається"
+        :options ["Зовсім не могла" "Значно менше, ніж раніше" "Не настільки, як раніше" "Як завжди"]}
+    2  {:text "Я з задоволенням думала про майбутнє"
+        :options ["Зовсім не думала" "Значно менше, ніж раніше" "Дещо менше, ніж раніше" "Як завжди"]}
+    3  {:text "Коли щось йшло не так, я звинувачувала себе без підстав"
+        :options ["Ні, ніколи" "Не дуже часто" "Так, іноді" "Так, більшу частину часу"]}
+    4  {:text "Я відчувала тривогу або хвилювання без видимої причини"
+        :options ["Так, дуже часто" "Так, іноді" "Майже ніколи" "Ні, зовсім ні"]}
+    5  {:text "Я відчувала страх або паніку без видимої причини"
+        :options ["Ні, зовсім ні" "Не дуже часто" "Так, іноді" "Так, досить часто"]}
+    6  {:text "Все навалилося на мене"
+        :options ["Ні, я справлялася так само, як завжди" "Ні, більшу частину часу я справлялася добре" "Так, іноді я не справлялася" "Так, більшу частину часу я не справлялася"]}
+    7  {:text "Мені було так погано, що я погано спала"
+        :options ["Ні, зовсім ні" "Не дуже часто" "Так, іноді" "Так, більшу частину часу"]}
+    8  {:text "Мені було сумно і я почувала себе нещасною"
+        :options ["Ні, зовсім ні" "Не дуже часто" "Так, досить часто" "Так, більшу частину часу"]}
+    9  {:text "Я була настільки нещасною, що плакала"
+        :options ["Ні, ніколи" "Тільки іноді" "Так, досить часто" "Так, більшу частину часу"]}
+    10 {:text "Мені приходили думки про подання собі шкоди"
+        :options ["Ніколи" "Майже ніколи" "Іноді" "Так, досить часто"]}}
 
    :de
    {1  {:text "Ich konnte lachen und die lustigen Seiten des Lebens sehen"
@@ -87,7 +109,9 @@
    :en {:phone "988"
         :label "Suicide & Crisis Lifeline (US)"}
    :de {:phone "0800-1110111"
-        :label "Telefonseelsorge (kostenlos)"}})
+        :label "Telefonseelsorge (kostenlos)"}
+   :uk {:phone "7333"
+        :label "Гаряча лінія з питань домашнього насильства (безкоштовно)"}})
 
 ;; -- Scoring functions (pure, no I/O) ---------------------------------------
 ;; All options ordered least severe (index 0) to most severe (index 3).

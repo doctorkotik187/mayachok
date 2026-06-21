@@ -25,7 +25,9 @@
            :en {:low-risk "Low risk" :possible-depression "Possible depression"
                 :probable-depression "Probable depression" :self-harm-risk "Self-harm risk"}
            :de {:low-risk "Geringes Risiko" :possible-depression "Mögliche Depression"
-                :probable-depression "Wahrscheinliche Depression" :self-harm-risk "Selbstgefährdung"}}
+                :probable-depression "Wahrscheinliche Depression" :self-harm-risk "Selbstgefährdung"}
+           :uk {:low-risk "Низький ризик" :possible-depression "Можлива депресія"
+                :probable-depression "Ймовірна депресія" :self-harm-risk "Ризик самоушкодження"}}
           [(keyword locale) risk-level] (name risk-level)))
 
 (defn- risk-color [risk-level]
@@ -45,7 +47,11 @@
            :de {:low-risk "Ergebnis im normalen Bereich. Weiter gute Pflege für sich und Ihr Baby."
                 :possible-depression "Nachsorge empfohlen. Bitte suchen Sie innerhalb von zwei Wochen einen Spezialisten auf."
                 :probable-depression "Konsultation mit einem Psychiater oder Therapeuten wird empfohlen."
-                :self-harm-risk "Bitte suchen Sie sofort Hilfe. Sie sind nicht allein — Hilfe ist jetzt verfügbar."}}
+                :self-harm-risk "Bitte suchen Sie sofort Hilfe. Sie sind nicht allein — Hilfe ist jetzt verfügbar."}
+           :uk {:low-risk "Результат у нормі. Продовжуйте піклуватися про себе та свою дитину."
+                :possible-depression "Рекомендоване спостереження. Зверніться до спеціаліста протягом двох тижнів."
+                :probable-depression "Рекомендована консультація психіатра або психотерапевта."
+                :self-harm-risk "Будь ласка, негайно зверніться за допомогою. Ви не самі — допомога доступна прямо зараз."}}
           [(keyword locale) risk-level] ""))
 
 (def ^:private animals
