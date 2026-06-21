@@ -7,8 +7,10 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
 {% block body %}{% endblock %}
+{% block extra_body %}{% endblock %}
 </body>
 </html>

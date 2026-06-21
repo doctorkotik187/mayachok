@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}{{tr.app-name}} — Heatmap{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  #map { height: 500px; border-radius: 12px; overflow: hidden; }
+  .leaflet-popup-content { font-family: 'Nunito', sans-serif; }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="section">
+    <div class="container">
+        <h1 class="title is-3 has-text-centered">{{tr.heatmap-title}}</h1>
+        <p class="subtitle is-5 has-text-centered">{{tr.heatmap-subtitle}}</p>
+
+        {% if data %}
+        <div id="map"></div>
+
+        <table class="table is-fullwidth is-striped is-hoverable" style="margin-top: 2rem;">
+            <thead>
+                <tr>
+                    <th>{{tr.heatmap-region}}</th>
+                    <th>{{tr.heatmap-screenings}}</th>
+                    <th>{{tr.heatmap-avg-score}}</th>
+                    <th>{{tr.heatmap-risk-breakdown}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td><strong>{{row.region_code}}</strong></td>
+                    <td>{{row.total}}</td>
+                    <td>
+                        <span class="tag {% if row.avg_score >= 15 %}is-danger{% elif row.avg_score >= 12 %}is-warning{% elif row.avg_score >= 9 %}is-info{% else %}is-success{% endif %}">
+                            {{row.avg_score}}
+                        </span>
+                    </td>
+                    <td>
+                        {% if row.self_harm_count > 0 %}
+                        <span class="tag is-danger">{{row.self_harm_count}} self-harm</span>
+                        {% endif %}
+                        {% if row.probable_count > 0 %}
+                        <span class="tag is-warning">{{row.probable_count}} probable</span>
+                        {% endif %}
+                        {% if row.possible_count > 0 %}
+                        <span class="tag is-info">{{row.possible_count}} possible</span>
+                        {% endif %}
+                        {% if row.low_count > 0 %}
+                        <span class="tag is-success">{{row.low_count}} low</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="notification is-info has-text-centered">
+            <p>{{tr.heatmap-no-data}}</p>
+        </div>
+        {% endif %}
+
+        <div class="has-text-centered" style="margin-top: 2rem;">
+            <a class="button is-primary is-rounded" href="/">{{tr.retake}}</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_body %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+window.heatmapData = '{{data|safe}}';
+</script>
+<script src="/js/heatmap.js"></script>
+{% endblock %}

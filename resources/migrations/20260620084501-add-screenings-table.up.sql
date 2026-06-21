@@ -1,15 +1,13 @@
 CREATE TABLE screenings (
-  id              TEXT    PRIMARY KEY,
-  created_at      TEXT    NOT NULL,
-  locale          TEXT    NOT NULL DEFAULT 'ru',
-  mode            TEXT    NOT NULL DEFAULT 'clinician',
-  answers         TEXT    NOT NULL,
-  total_score     INTEGER NOT NULL,
-  q10_score       INTEGER NOT NULL,
-  risk_level      TEXT    NOT NULL,
-  age_range       TEXT,
-  time_since_birth TEXT,
-  first_child     TEXT,
-  clinic_id       TEXT,
-  patient_ref     TEXT
+  id                TEXT    PRIMARY KEY,
+  created_at        TEXT    NOT NULL,
+  locale            TEXT    NOT NULL DEFAULT 'ru',
+  answers           TEXT    NOT NULL,
+  total_score       INTEGER NOT NULL,
+  q10_score         INTEGER NOT NULL,
+  risk_level        TEXT    NOT NULL,
+  age_range         TEXT,
+  time_since_birth  TEXT,
+  first_child       TEXT,
+  region_code       TEXT
 );

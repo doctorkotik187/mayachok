@@ -18,6 +18,4 @@ modules/
 .clj-kondo/
 .calva/output-window/
 .lsp/
-resources/public/js/
-
 mayachok_*.db
