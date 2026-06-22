@@ -62,8 +62,8 @@
 
 (defn- risk-color [risk-level]
   (case risk-level
-    :low-risk "#4ade80" :possible-depression "#fbbf24"
-    :probable-depression "#f97316" :self-harm-risk "#ef4444" "#94a3b8"))
+    :low-risk "#86efac" :possible-depression "#fdba74"
+    :probable-depression "#fb923c" :self-harm-risk "#ec4899" "#94a3b8"))
 
 (defn- risk-rec [locale risk-level]
   (get-in {:ru {:low-risk "Результат в пределах нормы. Продолжайте заботиться о себе и своём малыше."

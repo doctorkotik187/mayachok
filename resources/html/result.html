@@ -22,10 +22,10 @@
                 <p class="content recommendation">{{recommendation}}</p>
 
                 {% if show-crisis %}
-                <div class="notification is-danger crisis-alert">
+                <div class="notification crisis-alert">
                     <h2 class="title is-5">{{tr.crisis-title}}</h2>
                     <p>{{tr.crisis-help-text}}</p>
-                    <a class="button is-light is-rounded" href="/help?locale={{locale}}&screening_id={{screening-id}}">🆘 {{tr.help-title}}</a>
+                    <a class="button is-rounded" href="/help?locale={{locale}}&screening_id={{screening-id}}">{{tr.help-title}}</a>
                 </div>
                 {% endif %}
 

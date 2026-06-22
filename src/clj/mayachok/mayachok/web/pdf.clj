@@ -39,13 +39,13 @@
        (:help-title tr)]]
      ;; Crisis section
      (when (seq (:crisis res))
-       (cons [:paragraph {:size 11 :style :bold :ttf-name font-bold :color [185 28 28]
+       (cons [:paragraph {:size 11 :style :bold :ttf-name font-bold :color [190 24 93]
                           :spacing-after 4}
               (:help-crisis-title tr)]
              (map (fn [{:keys [name phone url hours description]}]
                     [:pdf-table {:width-percent 100 :spacing-after 4 :cell-border false}
                      [100]
-                     [[:pdf-cell {:background-color [254 226 226] :padding 6}
+                     [[:pdf-cell {:background-color [253 242 248] :padding 6}
                        [:paragraph {:size 8 :style :bold :ttf-name font-bold} name]
                        (when phone [:paragraph {:size 8} (str "📞 " phone)])
                        (when url [:paragraph {:size 8} (str "🌐 " url)])
@@ -82,10 +82,10 @@
 
 (defn- risk-color-rgb [risk-level]
   (case risk-level
-    :low-risk             [74 222 128]
-    :possible-depression  [251 191 36]
-    :probable-depression  [249 115 22]
-    :self-harm-risk       [239 68 68]
+    :low-risk             [134 239 172]
+    :possible-depression  [253 186 116]
+    :probable-depression  [251 146 60]
+    :self-harm-risk       [236 72 153]
     [148 163 184]))
 
 (defn- risk-label [locale risk-level]
@@ -322,14 +322,14 @@
                           :spacing-after 6
                           :cell-border false}
               [100]
-              [[:pdf-cell {:background-color [254 226 226]
+              [[:pdf-cell {:background-color [253 242 248]
                            :padding 8
                            :set-border [:left]
                            :border-width-left 3
-                           :border-color [239 68 68]}
-                [:paragraph {:size 9 :style :bold :ttf-name font-bold :color [185 28 28]}
+                           :border-color [236 72 153]}
+                [:paragraph {:size 9 :style :bold :ttf-name font-bold :color [190 24 93]}
                  (:crisis-title tr)]
-                [:paragraph {:size 8 :color [127 29 29]}
+                [:paragraph {:size 8 :color [131 24 67]}
                  (:help-resources-page2 tr)]]]])
 
              ;; divider
