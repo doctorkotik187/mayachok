@@ -17,6 +17,31 @@
    [ring.middleware.anti-forgery :refer [wrap-anti-forgery]])
   (:import [java.util UUID]))
 
+;; -- rate limiter (in-memory, per-IP) ---------------------------------------
+
+(def ^:private rate-limiter (atom {}))
+
+(def ^:private max-submissions-per-hour 10)
+(def ^:private min-seconds-on-page 5)
+
+(defn- rate-limit-check [ip]
+  (let [now (System/currentTimeMillis)
+        hour-ago (- now (* 60 60 1000))]
+    (swap! rate-limiter
+           (fn [m]
+             (let [timestamps (get m ip [])
+                   recent    (filterv #(> % hour-ago) timestamps)]
+               (if (>= (count recent) max-submissions-per-hour)
+                 m  ; don't add, already at limit
+                 (assoc m ip (conj recent now))))))
+    (let [recent-count (count (get @rate-limiter ip []))]
+      (< recent-count max-submissions-per-hour))))
+
+(defn- time-on-page-valid [ts]
+  (when ts
+    (let [elapsed (/ (- (System/currentTimeMillis) (Long/parseLong ts)) 1000.0)]
+      (>= elapsed min-seconds-on-page))))
+
 (defn- wrap-page-defaults []
   (let [error-page (layout/error-page {:status 403 :title "Invalid anti-forgery token"})]
     #(wrap-anti-forgery % {:error-response error-page})))
@@ -122,6 +147,7 @@
                           :risk-level risk :risk-label (risk-label locale risk) :risk-color (risk-color risk)
                           :recommendation (risk-rec locale risk) :crisis crisis
                           :show-crisis (pos? (:q10-score result)) :screening-id screening-id
+                          :ts (str (System/currentTimeMillis))
                           :tr tr})))
       (show-question {:params {:q (str (inc q-num)) :locale locale
                                :answers (json/write-str answers')}}))))
@@ -135,22 +161,51 @@
         time-since  (get p "time_since_birth")
         first-child (get p "first_child")
         location    (get p "location")
-        query-fn    (utils/route-data-key request :query-fn)]
-    (when query-fn
-      (try
-        (query-fn :update-survey! {:id id :age_range age-range :time_since_birth time-since :first_child (or first-child "")})
-        (catch Exception e
-          (log/error e "failed to update survey")))
-      (when (and location (not= "" (.trim location)))
-        (try
-          (if-let [coords (geocode/geocode location)]
-            (query-fn :update-location! {:id id, :lat (:lat coords), :lng (:lng coords), :location_text (:display coords)})
-            (log/warn "geocoding returned nil for location:" location))
-          (catch Exception e
-            (log/error e "failed to geocode location")))))
-    (layout/render request "survey-thankyou.html"
-                   {:locale (or (get p "locale") "ru")
-                    :tr (i18n/all-strings (or (get p "locale") "ru"))})))
+        query-fn    (utils/route-data-key request :query-fn)
+        ip          (or (get-in request [:headers "x-forwarded-for"])
+                        (get-in request [:remote-addr]))
+        ts          (get p "ts")  ; timestamp from form load
+
+        ;; Anti-bot checks
+        honeypot?   (seq (get p "website"))
+        rate-ok?    (rate-limit-check ip)
+        time-ok?    (time-on-page-valid ts)
+
+        locale      (or (get p "locale") "ru")
+        tr          (i18n/all-strings locale)]
+
+    (cond
+      ;; Honeypot filled — silently accept, don't save
+      honeypot?
+      (do (log/warn "Bot: honeypot filled, ip=" ip)
+          (layout/render request "survey-thankyou.html" {:locale locale :tr tr}))
+
+      ;; Rate limited — silently accept, don't save
+      (not rate-ok?)
+      (do (log/warn "Bot: rate limited, ip=" ip)
+          (layout/render request "survey-thankyou.html" {:locale locale :tr tr}))
+
+      ;; Submitted too fast — silently accept, don't save
+      (not time-ok?)
+      (do (log/warn "Bot: submitted too fast, ip=" ip "ts=" ts)
+          (layout/render request "survey-thankyou.html" {:locale locale :tr tr}))
+
+      ;; All checks passed — save normally
+      :else
+      (do
+        (when query-fn
+          (try
+            (query-fn :update-survey! {:id id :age_range age-range :time_since_birth time-since :first_child (or first-child "")})
+            (catch Exception e
+              (log/error e "failed to update survey")))
+          (when (and location (not= "" (.trim location)))
+            (try
+              (if-let [coords (geocode/geocode location)]
+                (query-fn :update-location! {:id id, :lat (:lat coords), :lng (:lng coords), :location_text (:display coords)})
+                (log/warn "geocoding returned nil for location:" location))
+              (catch Exception e
+                (log/error e "failed to geocode location")))))
+        (layout/render request "survey-thankyou.html" {:locale locale :tr tr})))))
 
 ;; -- region ------------------------------------------------------------------
 

@@ -37,6 +37,13 @@
                     <p class="survey-hint">{{tr.survey-hint}}</p>
                     <form method="post" action="/screenings/{{screening-id}}/survey">
                         {% csrf-field %}
+                        <!-- Honeypot: bots fill this, humans don't see it -->
+                        <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+                            <label for="website">Website</label>
+                            <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" />
+                        </div>
+                        <!-- Timestamp: page load time for bot detection -->
+                        <input type="hidden" name="ts" value="{{ts}}" />
                         <div class="field">
                             <label class="label">{{tr.survey-age}}</label>
                             <div class="control">
