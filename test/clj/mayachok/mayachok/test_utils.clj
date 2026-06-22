@@ -27,6 +27,16 @@
       (p/request path
                  :request-method :get
                  :content-type "application/edn"
+                 :headers (merge {"accept" "application/json"} headers)
+                 :params params)
+      (get-response)))
+
+(defn POST [app path params headers body]
+  (-> (p/session app)
+      (p/request path
+                 :request-method :post
+                 :content-type "application/json"
                  :headers headers
+                 :body body
                  :params params)
       (get-response)))

@@ -1,3 +1,7 @@
+-- :name clear-screenings! :! :n
+-- :doc deletes all screening records (for testing)
+DELETE FROM screenings
+
 -- :name create-screening! :! :n
 -- :doc inserts a new screening record
 INSERT INTO screenings (id, created_at, locale, answers, total_score, q10_score, risk_level, age_range, time_since_birth, first_child, lat, lng, location_text)
@@ -18,6 +22,32 @@ UPDATE screenings SET age_range = :age_range, time_since_birth = :time_since_bir
 -- :name update-location! :! :n
 -- :doc updates the geolocation fields for a screening
 UPDATE screenings SET lat = :lat, lng = :lng, location_text = :location_text WHERE id = :id
+
+-- :name list-screenings-stats :? :*
+-- :doc lists all screenings without answers json, newest first
+SELECT id, created_at, locale, total_score, q10_score, risk_level,
+       age_range, time_since_birth, first_child,
+       lat, lng, location_text
+FROM screenings
+ORDER BY created_at DESC
+
+-- :name list-screenings-by-region :? :*
+-- :doc screenings that have location data
+SELECT id, created_at, locale, total_score, q10_score, risk_level,
+       age_range, time_since_birth, first_child,
+       lat, lng, location_text
+FROM screenings
+WHERE location_text IS NOT NULL AND location_text != ''
+ORDER BY created_at DESC
+
+-- :name list-screenings-by-risk :? :*
+-- :doc screenings filtered by risk level
+SELECT id, created_at, locale, total_score, q10_score, risk_level,
+       age_range, time_since_birth, first_child,
+       lat, lng, location_text
+FROM screenings
+WHERE risk_level = :risk_level
+ORDER BY created_at DESC
 
 -- :name heatmap-data :? :*
 -- :doc aggregate data for the heatmap, grouped by normalized location
