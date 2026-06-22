@@ -1,9 +1,9 @@
 (ns mayachok.mayachok.web.pdf
   (:require
-    [clj-pdf.core :as pdf]
-    [clojure.data.json :as json]
-    [clojure.java.io :as io]
-    [mayachok.mayachok.domain.epds :as epds])
+   [clj-pdf.core :as pdf]
+   [clojure.data.json :as json]
+   [clojure.java.io :as io]
+   [mayachok.mayachok.domain.epds :as epds])
   (:import [java.io ByteArrayOutputStream]
            [java.time Instant ZoneId]
            [java.time.format DateTimeFormatter]))
@@ -141,55 +141,55 @@
 (defn- build-survey [tr age-range time-since first-child location]
   (when (or age-range time-since first-child location)
     (vec
-      (cons
-        [:paragraph {:size 8 :style :bold :ttf-name font-bold :color text-dark
-                     :spacing-after 3}
-         (:survey-title tr)]
-        (keep identity
-          (cond-> []
-            age-range
-            (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
-                   [:chunk {:style :bold :ttf-name font-bold :color text-mid}
-                    (str (:survey-age tr) ": ")]
-                   age-range])
+     (cons
+      [:paragraph {:size 8 :style :bold :ttf-name font-bold :color text-dark
+                   :spacing-after 3}
+       (:survey-title tr)]
+      (keep identity
+            (cond-> []
+              age-range
+              (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
+                     [:chunk {:style :bold :ttf-name font-bold :color text-mid}
+                      (str (:survey-age tr) ": ")]
+                     age-range])
 
-            time-since
-            (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
-                   [:chunk {:style :bold :ttf-name font-bold :color text-mid}
-                    (str (:survey-birth tr) ": ")]
-                   time-since])
+              time-since
+              (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
+                     [:chunk {:style :bold :ttf-name font-bold :color text-mid}
+                      (str (:survey-birth tr) ": ")]
+                     time-since])
 
-            first-child
-            (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
-                   [:chunk {:style :bold :ttf-name font-bold :color text-mid}
-                    (str (:survey-first tr) ": ")]
-                   (if (= first-child "yes") (:survey-yes tr) (:survey-no tr))])
+              first-child
+              (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
+                     [:chunk {:style :bold :ttf-name font-bold :color text-mid}
+                      (str (:survey-first tr) ": ")]
+                     (if (= first-child "yes") (:survey-yes tr) (:survey-no tr))])
 
-            location
-            (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
-                   [:chunk {:style :bold :ttf-name font-bold :color text-mid}
-                    (str (:location-question tr) ": ")]
-                   location])))))))
+              location
+              (conj [:paragraph {:size 7 :color text-dark :spacing-after 1}
+                     [:chunk {:style :bold :ttf-name font-bold :color text-mid}
+                      (str (:location-question tr) ": ")]
+                     location])))))))
 
 (defn- build-answers-table [answers-detail risk-rgb _locale]
   (when (seq answers-detail)
     (into
-      [:pdf-table {:width-percent 100
-                   :cell-border false
-                   :spacing-after 2}
-       [6 60 34]]
-      (mapcat
-        (fn [{:keys [q text label]}]
-          [[[:pdf-cell {:padding-top 1}
-             [:paragraph {:size 7 :style :bold :ttf-name font-bold :color text-mid}
-              (str "Q" q)]]
-            [:pdf-cell {:padding-top 1}
-             [:paragraph {:size 7 :color text-dark}
-              [:chunk {:style :italic} text]]]
-            [:pdf-cell {:padding-top 1}
-             [:paragraph {:size 7 :color risk-rgb}
-              [:chunk {:style :bold :ttf-name font-bold} label]]]]])
-        answers-detail))))
+     [:pdf-table {:width-percent 100
+                  :cell-border false
+                  :spacing-after 2}
+      [6 60 34]]
+     (mapcat
+      (fn [{:keys [q text label]}]
+        [[[:pdf-cell {:padding-top 1}
+           [:paragraph {:size 7 :style :bold :ttf-name font-bold :color text-mid}
+            (str "Q" q)]]
+          [:pdf-cell {:padding-top 1}
+           [:paragraph {:size 7 :color text-dark}
+            [:chunk {:style :italic} text]]]
+          [:pdf-cell {:padding-top 1}
+           [:paragraph {:size 7 :color risk-rgb}
+            [:chunk {:style :bold :ttf-name font-bold} label]]]]])
+      answers-detail))))
 
 ;; -- Main entry point --------------------------------------------------------
 
@@ -246,61 +246,61 @@
 
         doc
         (vec
-          (concat
-            [;; metadata
-             {:title                  doc-title
-              :subject                (:result-title tr)
-              :creator                app-name
-              :register-system-fonts? true
-              :font                   {:ttf-name font-regular
-                                      :encoding :unicode}
-              :footer                 false
-              :top-margin             25
-              :bottom-margin          25
-              :left-margin            35
-              :right-margin           35}
+         (concat
+          [;; metadata
+           {:title                  doc-title
+            :subject                (:result-title tr)
+            :creator                app-name
+            :register-system-fonts? true
+            :font                   {:ttf-name font-regular
+                                     :encoding :unicode}
+            :footer                 false
+            :top-margin             25
+            :bottom-margin          25
+            :left-margin            35
+            :right-margin           35}
 
              ;; page background
-             (build-bg-graphics)
+           (build-bg-graphics)
 
              ;; header with mascot
-             (build-header app-name mascot-img)
+           (build-header app-name mascot-img)
 
              ;; timestamp
-             [:paragraph {:align :right :size 7 :color text-light
-                          :spacing-after 8}
-              timestamp]
+           [:paragraph {:align :right :size 7 :color text-light
+                        :spacing-after 8}
+            timestamp]
 
              ;; score + risk
-             (build-score-risk total-score risk-rgb risk-lbl rec)
+           (build-score-risk total-score risk-rgb risk-lbl rec)
 
              ;; crisis alert
-             (when (and show-crisis crisis)
-               (build-crisis (:crisis-title tr)
-                             (:label crisis)
-                             (:phone crisis)
-                             (:spb crisis)))
+           (when (and show-crisis crisis)
+             (build-crisis (:crisis-title tr)
+                           (:label crisis)
+                           (:phone crisis)
+                           (:spb crisis)))
 
              ;; divider
-             [:line {:color line-color :line-width 0.5}]
-             [:spacer 4]]
+           [:line {:color line-color :line-width 0.5}]
+           [:spacer 4]]
 
             ;; survey data (vector of elements)
-            (or survey-block [])
+          (or survey-block [])
 
             ;; answers table (single element or nil)
-            (keep identity [answers-block])
+          (keep identity [answers-block])
 
             ;; footer
-            [[:spacer 6]
-             [:line {:color line-color :line-width 0.5}]
-             [:spacer 3]
-             [:paragraph {:size 6 :color text-light :align :center}
-              (:open-source tr)]
-             [:paragraph {:size 6 :color text-light :align :center}
-              "github.com/doctorkotik187/mayachok"]
-             [:paragraph {:size 6 :color [200 195 188] :align :center}
-              disclaimer]]))
+          [[:spacer 6]
+           [:line {:color line-color :line-width 0.5}]
+           [:spacer 3]
+           [:paragraph {:size 6 :color text-light :align :center}
+            (:open-source tr)]
+           [:paragraph {:size 6 :color text-light :align :center}
+            "github.com/doctorkotik187/mayachok"]
+           [:paragraph {:size 6 :color [200 195 188] :align :center}
+            disclaimer]]))
 
         out (ByteArrayOutputStream.)]
     (pdf/pdf doc out)

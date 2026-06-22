@@ -1,8 +1,8 @@
 (ns mayachok.mayachok.web.api-test
   (:require
-    [clojure.data.json :as json]
-    [clojure.test :refer [deftest testing is use-fixtures]]
-    [mayachok.mayachok.test-utils :refer [system-state system-fixture GET]])
+   [clojure.data.json :as json]
+   [clojure.test :refer [deftest testing is use-fixtures]]
+   [mayachok.mayachok.test-utils :refer [system-state system-fixture GET]])
   (:import [java.util UUID]))
 
 (use-fixtures :once (system-fixture))
@@ -47,19 +47,19 @@
                                    first-child lat lng location-text]
                             :or   {locale "ru"}}]
   (create-screening!
-    {:id               id
-     :created_at       (iso-now)
-     :locale           locale
-     :answers          (json/write-str answers)
-     :total_score      total-score
-     :q10_score        q10-score
-     :risk_level       (name risk-level)
-     :age_range        age-range
-     :time_since_birth time-since-birth
-     :first_child      first-child
-     :lat              lat
-     :lng              lng
-     :location_text    location-text}))
+   {:id               id
+    :created_at       (iso-now)
+    :locale           locale
+    :answers          (json/write-str answers)
+    :total_score      total-score
+    :q10_score        q10-score
+    :risk_level       (name risk-level)
+    :age_range        age-range
+    :time_since_birth time-since-birth
+    :first_child      first-child
+    :lat              lat
+    :lng              lng
+    :location_text    location-text}))
 
 (defn- parse-body [response]
   (json/read-str (:body response) :key-fn keyword))

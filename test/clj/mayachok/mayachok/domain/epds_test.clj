@@ -1,7 +1,7 @@
 (ns mayachok.mayachok.domain.epds-test
   (:require
-    [clojure.test :refer [deftest is testing]]
-    [mayachok.mayachok.domain.epds :as epds]))
+   [clojure.test :refer [deftest is testing]]
+   [mayachok.mayachok.domain.epds :as epds]))
 
 ;; -- helpers ----------------------------------------------------------------
 

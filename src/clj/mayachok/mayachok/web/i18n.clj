@@ -210,7 +210,7 @@
   [locale k]
   (let [locale (keyword locale)]
     (get-in translations [locale k]
-      (get-in translations [:en k] (name k)))))
+            (get-in translations [:en k] (name k)))))
 
 (defn all-strings
   "Return all translation strings for a locale as a flat map.

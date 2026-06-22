@@ -1,17 +1,17 @@
 (ns mayachok.mayachok.web.routes.pages
   (:require
-    [clojure.data.json :as json]
-    [clojure.tools.logging :as log]
-    [mayachok.mayachok.domain.epds :as epds]
-    [mayachok.mayachok.web.geocode :as geocode]
-    [mayachok.mayachok.web.i18n :as i18n]
-    [mayachok.mayachok.web.pages.layout :as layout]
-    [mayachok.mayachok.web.pdf :as pdf]
-    [mayachok.mayachok.web.routes.utils :as utils]
-    [integrant.core :as ig]
-    [reitit.ring.middleware.muuntaja :as muuntaja]
-    [reitit.ring.middleware.parameters :as parameters]
-    [ring.middleware.anti-forgery :refer [wrap-anti-forgery]])
+   [clojure.data.json :as json]
+   [clojure.tools.logging :as log]
+   [mayachok.mayachok.domain.epds :as epds]
+   [mayachok.mayachok.web.geocode :as geocode]
+   [mayachok.mayachok.web.i18n :as i18n]
+   [mayachok.mayachok.web.pages.layout :as layout]
+   [mayachok.mayachok.web.pdf :as pdf]
+   [mayachok.mayachok.web.routes.utils :as utils]
+   [integrant.core :as ig]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.parameters :as parameters]
+   [ring.middleware.anti-forgery :refer [wrap-anti-forgery]])
   (:import [java.util UUID]))
 
 (defn- wrap-page-defaults []
@@ -83,11 +83,11 @@
         answers-json (json/write-str answers)
         tr (i18n/all-strings locale)]
     (layout/render request "question.html"
-      {:locale locale :q-num q-num :question-text (:text qd) :options (:options qd)
-       :answers answers-json :progress (* 10 q-num) :animal (random-animal)
-       :tr tr
-       :question-of-text (format (:question-of tr) q-num)
-       :question-title-text (format (:question-title tr) q-num)})))
+                   {:locale locale :q-num q-num :question-text (:text qd) :options (:options qd)
+                    :answers answers-json :progress (* 10 q-num) :animal (random-animal)
+                    :tr tr
+                    :question-of-text (format (:question-of tr) q-num)
+                    :question-title-text (format (:question-title tr) q-num)})))
 
 ;; -- process answer ----------------------------------------------------------
 
@@ -105,21 +105,21 @@
             now          (str (java.time.Instant/now))]
         (try
           (query-fn :create-screening!
-            {:id screening-id :created_at now :locale locale
-             :answers (json/write-str answers') :total_score (:total-score result)
-             :q10_score (:q10-score result) :risk_level (name (:risk-level result))
-             :age_range nil :time_since_birth nil :first_child nil
-             :lat nil :lng nil :location_text nil})
+                    {:id screening-id :created_at now :locale locale
+                     :answers (json/write-str answers') :total_score (:total-score result)
+                     :q10_score (:q10-score result) :risk_level (name (:risk-level result))
+                     :age_range nil :time_since_birth nil :first_child nil
+                     :lat nil :lng nil :location_text nil})
           (catch Exception e (log/error e "failed to save screening")))
         (let [risk   (:risk-level result)
               crisis (get epds/crisis-resources (keyword locale) (epds/crisis-resources :ru))
               tr     (i18n/all-strings locale)]
           (layout/render request "result.html"
-            {:locale locale :total-score (:total-score result) :q10-score (:q10-score result)
-             :risk-level risk :risk-label (risk-label locale risk) :risk-color (risk-color risk)
-             :recommendation (risk-rec locale risk) :crisis crisis
-             :show-crisis (pos? (:q10-score result)) :screening-id screening-id
-             :tr tr})))
+                         {:locale locale :total-score (:total-score result) :q10-score (:q10-score result)
+                          :risk-level risk :risk-label (risk-label locale risk) :risk-color (risk-color risk)
+                          :recommendation (risk-rec locale risk) :crisis crisis
+                          :show-crisis (pos? (:q10-score result)) :screening-id screening-id
+                          :tr tr})))
       (show-question {:params {:q (str (inc q-num)) :locale locale
                                :answers (json/write-str answers')}}))))
 
@@ -146,8 +146,8 @@
           (catch Exception e
             (log/error e "failed to geocode location")))))
     (layout/render request "survey-thankyou.html"
-      {:locale (or (get p "locale") "ru")
-       :tr (i18n/all-strings (or (get p "locale") "ru"))})))
+                   {:locale (or (get p "locale") "ru")
+                    :tr (i18n/all-strings (or (get p "locale") "ru"))})))
 
 ;; -- region ------------------------------------------------------------------
 
@@ -160,10 +160,8 @@
     (when (and country region)
       (query-fn :update-region! {:id id :region_code region}))
     (layout/render request "region-thankyou.html"
-      {:locale (or (get p "locale") "ru")
-       :tr (i18n/all-strings (or (get p "locale") "ru"))})))
-
-
+                   {:locale (or (get p "locale") "ru")
+                    :tr (i18n/all-strings (or (get p "locale") "ru"))})))
 
 (defn- avg-score-color [avg]
   (cond
@@ -181,10 +179,10 @@
                       raw)
         locale   (or (get-in request [:params :locale]) "en")]
     (layout/render request "heatmap.html"
-      {:locale locale
-       :tr (i18n/all-strings locale)
-       :data data
-       :data-json (json/write-str data)})))
+                   {:locale locale
+                    :tr (i18n/all-strings locale)
+                    :data data
+                    :data-json (json/write-str data)})))
 
 ;; -- pdf ---------------------------------------------------------------------
 
@@ -198,7 +196,7 @@
         (let [pdf-bytes (pdf/result-pdf s tr)]
           {:status  200
            :headers {"Content-Type"        "application/pdf"
-                    "Content-Disposition" (str "attachment; filename=\"mayachok-" screening-id ".pdf\"")}
+                     "Content-Disposition" (str "attachment; filename=\"mayachok-" screening-id ".pdf\"")}
            :body    pdf-bytes}))
       (layout/render request "error.html" {:status 404 :title "Screening not found"}))))
 
@@ -216,7 +214,7 @@
 (defn- build-route-data [opts]
   (merge {:middleware [(wrap-page-defaults) parameters/parameters-middleware
                        muuntaja/format-response-middleware muuntaja/format-negotiate-middleware]}
-          (select-keys opts [:query-fn])))
+         (select-keys opts [:query-fn])))
 
 (derive :reitit.routes/pages :reitit/routes)
 

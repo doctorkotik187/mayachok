@@ -1,40 +1,40 @@
 (ns mayachok.mayachok.web.routes.api
   (:require
-    [mayachok.mayachok.web.controllers.health :as health]
-    [mayachok.mayachok.web.middleware.exception :as exception]
-    [mayachok.mayachok.web.middleware.formats :as formats]
-    [mayachok.mayachok.web.routes.utils :as utils]
-    [clojure.tools.logging :as log]
-    [integrant.core :as ig]
-    [reitit.coercion.malli :as malli]
-    [reitit.ring.coercion :as coercion]
-    [reitit.ring.middleware.muuntaja :as muuntaja]
-    [reitit.ring.middleware.parameters :as parameters]
-    [reitit.swagger :as swagger]
-    [ring.util.http-response :as http-response]))
+   [mayachok.mayachok.web.controllers.health :as health]
+   [mayachok.mayachok.web.middleware.exception :as exception]
+   [mayachok.mayachok.web.middleware.formats :as formats]
+   [mayachok.mayachok.web.routes.utils :as utils]
+   [clojure.tools.logging :as log]
+   [integrant.core :as ig]
+   [reitit.coercion.malli :as malli]
+   [reitit.ring.coercion :as coercion]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.parameters :as parameters]
+   [reitit.swagger :as swagger]
+   [ring.util.http-response :as http-response]))
 
 (defn- route-data [opts]
   (merge
-    {:coercion   malli/coercion
-     :muuntaja   formats/instance
-     :swagger    {:id ::api}
-     :middleware [;; query-params & form-params
-                  parameters/parameters-middleware
+   {:coercion   malli/coercion
+    :muuntaja   formats/instance
+    :swagger    {:id ::api}
+    :middleware [;; query-params & form-params
+                 parameters/parameters-middleware
                     ;; content-negotiation
-                  muuntaja/format-negotiate-middleware
+                 muuntaja/format-negotiate-middleware
                     ;; encoding response body
-                  muuntaja/format-response-middleware
+                 muuntaja/format-response-middleware
                     ;; exception handling
-                  coercion/coerce-exceptions-middleware
+                 coercion/coerce-exceptions-middleware
                     ;; decoding request body
-                  muuntaja/format-request-middleware
+                 muuntaja/format-request-middleware
                     ;; coercing response bodys
-                  coercion/coerce-response-middleware
+                 coercion/coerce-response-middleware
                     ;; coercing request parameters
-                  coercion/coerce-request-middleware
+                 coercion/coerce-request-middleware
                     ;; exception handling
-                  exception/wrap-exception]}
-    (select-keys opts [:query-fn])))
+                 exception/wrap-exception]}
+   (select-keys opts [:query-fn])))
 
 ;; -- stats -------------------------------------------------------------------
 
@@ -56,15 +56,15 @@
                                {}
                                screenings)
             by-region  (reduce (fn [acc s]
-                                  (let [r (or (:location_text s) "unknown")]
-                                    (update acc r (fnil inc 0))))
-                                {}
-                                screenings)]
+                                 (let [r (or (:location_text s) "unknown")]
+                                   (update acc r (fnil inc 0))))
+                               {}
+                               screenings)]
         (http-response/ok
-          {:total      total
-           :risk       by-risk
-           :regions    by-region
-           :screenings limited}))
+         {:total      total
+          :risk       by-risk
+          :regions    by-region
+          :screenings limited}))
       (catch Exception e
         (log/error e "failed to fetch stats")
         (http-response/internal-server-error {:error "Failed to fetch stats"})))))

@@ -1,12 +1,12 @@
 (ns mayachok.mayachok.web.controllers.screening
   (:require
-    [clojure.data.json :as json]
-    [clojure.tools.logging :as log]
-    [mayachok.mayachok.domain.epds :as epds]
-    [mayachok.mayachok.web.routes.utils :as utils]
-    [ring.util.http-response :as http-response])
+   [clojure.data.json :as json]
+   [clojure.tools.logging :as log]
+   [mayachok.mayachok.domain.epds :as epds]
+   [mayachok.mayachok.web.routes.utils :as utils]
+   [ring.util.http-response :as http-response])
   (:import
-    [java.util UUID]))
+   [java.util UUID]))
 
 (defn- validate-answers [answers]
   (and (vector? answers)
@@ -29,28 +29,28 @@
         patient-ref (:patient_ref body)]
     (if-not (validate-answers answers)
       (http-response/bad-request
-        {:error "Invalid answers. Expected a vector of 10 maps with :question (1-10) and :answer (0-3)."})
+       {:error "Invalid answers. Expected a vector of 10 maps with :question (1-10) and :answer (0-3)."})
       (try
         (let [score-result (epds/score-screening answers)
               screening-id (str (UUID/randomUUID))
               now          (str (java.time.Instant/now))]
           (query-fn :create-screening!
-            {:id          screening-id
-             :created_at  now
-             :locale      locale
-             :mode        mode
-             :answers     (json/write-str answers)
-             :total_score (:total-score score-result)
-             :q10_score   (:q10-score score-result)
-             :risk_level  (name (:risk-level score-result))
-             :clinic_id   clinic-id
-             :patient_ref patient-ref})
+                    {:id          screening-id
+                     :created_at  now
+                     :locale      locale
+                     :mode        mode
+                     :answers     (json/write-str answers)
+                     :total_score (:total-score score-result)
+                     :q10_score   (:q10-score score-result)
+                     :risk_level  (name (:risk-level score-result))
+                     :clinic_id   clinic-id
+                     :patient_ref patient-ref})
           (http-response/ok
-            (assoc score-result :id screening-id)))
+           (assoc score-result :id screening-id)))
         (catch Exception e
           (log/error e "failed to create screening")
           (http-response/internal-server-error
-            {:error "Failed to create screening"}))))))
+           {:error "Failed to create screening"}))))))
 
 (defn get-screening
   [request]

@@ -1,9 +1,9 @@
 (ns mayachok.mayachok.test-utils
   (:require
-    [mayachok.mayachok.core :as core]
-    [peridot.core :as p]
-    [byte-streams :as bs]
-    [integrant.repl.state :as state]))
+   [mayachok.mayachok.core :as core]
+   [peridot.core :as p]
+   [byte-streams :as bs]
+   [integrant.repl.state :as state]))
 
 (defn system-state
   []

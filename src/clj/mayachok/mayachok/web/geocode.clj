@@ -1,11 +1,11 @@
 (ns mayachok.mayachok.web.geocode
   (:require
-    [clojure.data.json :as json]
-    [clojure.tools.logging :as log])
+   [clojure.data.json :as json]
+   [clojure.tools.logging :as log])
   (:import
-    [java.net URI]
-    [java.net.http HttpClient HttpRequest HttpResponse$BodyHandlers]
-    [java.time Duration]))
+   [java.net URI]
+   [java.net.http HttpClient HttpRequest HttpResponse$BodyHandlers]
+   [java.time Duration]))
 
 (def ^:private nominatim-base "https://nominatim.openstreetmap.org/search")
 (def ^:private user-agent "mayachok/1.0 (https://github.com/doctorkotik187/mayachok)")
