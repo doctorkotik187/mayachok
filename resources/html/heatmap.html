@@ -31,7 +31,7 @@
             <tbody>
                 {% for row in data %}
                 <tr>
-                    <td><strong>{{row.region}}</strong></td>
+                    <td><strong>{% if row.region = "unknown" %}{{tr.heatmap-unknown}}{% else %}{{row.region}}{% endif %}</strong></td>
                     <td>{{row.total}}</td>
                     <td>
                         <span class="tag {% if row.avg_score >= 15 %}is-danger{% elif row.avg_score >= 12 %}is-warning{% elif row.avg_score >= 9 %}is-info{% else %}is-success{% endif %}">

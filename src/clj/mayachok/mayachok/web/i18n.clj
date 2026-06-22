@@ -70,7 +70,8 @@
     :heatmap-avg-score "Сред. балл"
     :heatmap-risk-breakdown "Распределение рисков"
     :heatmap-map-hint "Интерактивная карта скоро. Пока — данные по регионам."
-    :heatmap-no-data "Пока нет данных. Пройдите опрос и укажите свой регион."}
+    :heatmap-no-data "Пока нет данных. Пройдите опрос и укажите свой регион."
+    :heatmap-unknown "Не указан"}
 
    :en
    {:app-name "Mayachok"
@@ -125,6 +126,7 @@
     :heatmap-risk-breakdown "Risk breakdown"
     :heatmap-map-hint "Interactive map coming soon. For now, here is the data by region."
     :heatmap-no-data "No data yet. Please complete a screening and share your region."
+    :heatmap-unknown "Not specified"
     :help-title "Where to Get Help"
     :help-subtitle "You are not alone. Help is available right now."
     :help-crisis-title "🆘 Crisis Lines (24/7)"
@@ -191,6 +193,7 @@
     :heatmap-avg-score "Ø Score"
     :heatmap-risk-breakdown "Risiko-Aufschlüsselung"
     :heatmap-no-data "Noch keine Daten. Bitte füllen Sie ein Screening aus und teilen Sie Ihre Region."
+    :heatmap-unknown "Nicht angegeben"
     :help-title "Wo man Hilfe findet"
     :help-subtitle "Sie sind nicht allein. Hilfe ist jetzt verfügbar."
     :help-crisis-title "🆘 Krisen-Hotlines (24/7)"
@@ -256,6 +259,7 @@
     :heatmap-avg-score "Сер. бал"
     :heatmap-risk-breakdown "Ризик"
     :heatmap-no-data "Поки що немає даних. Будь ласка, пройдіть опитування та поділіться своїм регіоном."
+    :heatmap-unknown "Не вказано"
     :help-title "Куди звернутися за допомогою"
     :help-subtitle "Ви не самі. Допомога доступна прямо зараз."
     :help-crisis-title "🆘 Кризова допомога (24/7)"

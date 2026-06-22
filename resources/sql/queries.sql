@@ -62,6 +62,5 @@ SELECT
   AVG(lat) as avg_lat,
   AVG(lng) as avg_lng
 FROM screenings
-WHERE lat IS NOT NULL AND lng IS NOT NULL
 GROUP BY location_text
 ORDER BY total DESC
