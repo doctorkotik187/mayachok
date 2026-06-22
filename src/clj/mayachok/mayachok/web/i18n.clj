@@ -23,6 +23,7 @@
     :out-of "/30"
     :retake "Пройти заново"
     :crisis-title "🆘 Пожалуйста, позвоните сейчас"
+    :crisis-help-text "Вы не одни. Помощь доступна прямо сейчас — горячие линии, чаты, группы поддержки."
     :error-title "Ошибка"
     :error-invalid-token "Недействительный токен защиты"
     :lang-switch "English"
@@ -40,6 +41,7 @@
     :survey-birth-3-6m "3-6 месяцев"
     :survey-birth-6m+ "6+ месяцев"
     :open-source "Это проект с открытым кодом."
+    :report-bug "Сообщить об ошибке"
     :survey-thanks-title "Спасибо!"
     :survey-thanks-text "Ваши анонимные данные помогают понять, каким мамам нужна поддержка."
     :region-thanks-title "Спасибо!"
@@ -59,7 +61,15 @@
     :help-ai-desc "Скопируйте шаблон и вставьте в ChatGPT или другой AI-чат:"
     :help-ai-button "Скопировать"
     :help-disclaimer "Этот результат не является диагнозом. Обратитесь к специалисту."
-    :help-last-reviewed "Обновлено:"}
+    :help-last-reviewed "Обновлено:"
+    :heatmap-title "Карта потреб"
+    :heatmap-subtitle "Где мамам нужна поддержка больше всего"
+    :heatmap-region "Регион"
+    :heatmap-screenings "Опросов"
+    :heatmap-avg-score "Сред. балл"
+    :heatmap-risk-breakdown "Распределение рисков"
+    :heatmap-map-hint "Интерактивная карта скоро. Пока — данные по регионам."
+    :heatmap-no-data "Пока нет данных. Пройдите опрос и укажите свой регион."}
 
    :en
    {:app-name "Mayachok"
@@ -78,6 +88,7 @@
     :out-of "/30"
     :retake "Take again"
     :crisis-title "🆘 Please call now"
+    :crisis-help-text "You are not alone. Help is available right now — hotlines, chats, support groups."
     :error-title "Error"
     :error-invalid-token "Invalid anti-forgery token"
     :lang-switch "Русский"
@@ -123,7 +134,8 @@
     :help-ai-desc "Copy this template and paste into ChatGPT or another AI chat:"
     :help-ai-button "Copy"
     :help-disclaimer "This result is not a diagnosis. Please consult a specialist."
-    :help-last-reviewed "Last reviewed:"}
+    :help-last-reviewed "Last reviewed:"
+    :report-bug "Report a bug"}
 
    :de
    {:app-name "Mayachok"
@@ -142,6 +154,7 @@
     :out-of "/30"
     :retake "Erneut durchführen"
     :crisis-title "🆘 Bitte rufen Sie jetzt an"
+    :crisis-help-text "Sie sind nicht allein. Hilfe ist jetzt verfügbar — Telefonseelsorge, Chats, Selbsthilfegruppen."
     :error-title "Fehler"
     :error-invalid-token "Ungültiges Anti-Forgery-Token"
     :lang-switch "Deutsch"
@@ -186,7 +199,8 @@
     :help-ai-desc "Kopieren Sie diese Vorlage und fügen Sie sie in ChatGPT oder einen anderen AI-Chat ein:"
     :help-ai-button "Kopieren"
     :help-disclaimer "Dieses Ergebnis ist keine Diagnose. Bitte konsultieren Sie einen Spezialisten."
-    :help-last-reviewed "Stand:"}
+    :help-last-reviewed "Stand:"
+    :report-bug "Fehler melden"}
 
    :uk
    {:app-name "Маячок"
@@ -205,6 +219,7 @@
     :out-of "/30"
     :retake "Пройти знову"
     :crisis-title "🆘 Будь ласка, зателефонуйте зараз"
+    :crisis-help-text "Ви не самі. Допомога доступна прямо зараз — гарячі лінії, чати, групи підтримки."
     :error-title "Помилка"
     :error-invalid-token "Недійсний токен захисту"
     :lang-switch "Українська"
@@ -248,7 +263,8 @@
     :help-ai-desc "Скопіюйте шаблон і вставте в ChatGPT або інший AI-чат:"
     :help-ai-button "Скопіювати"
     :help-disclaimer "Цей результат не є діагнозом. Зверніться до спеціаліста."
-    :help-last-reviewed "Оновлено:"}})
+    :help-last-reviewed "Оновлено:"
+    :report-bug "Повідомити про помилку"}})
 
 ;; -- Lookup -----------------------------------------------------------------
 

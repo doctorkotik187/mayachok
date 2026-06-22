@@ -14,18 +14,24 @@
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
-        <span class="mascot">🐻</span>&nbsp;<strong>{{tr.app-name}}</strong>
+        <strong>{{tr.app-name}}</strong>
       </a>
     </div>
     <div class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="/">{{tr.nav-home}}</a>
-        <a class="navbar-item" href="/map">{{tr.nav-map}}</a>
+        <a class="navbar-item" href="/map?locale={{locale}}">{{tr.nav-map}}</a>
       </div>
     </div>
   </div>
 </nav>
 {% block body %}{% endblock %}
 {% block extra_body %}{% endblock %}
+<footer class="footer has-text-centered" style="padding: 1.5rem;">
+  <p class="is-size-7">
+    <a href="https://github.com/doctorkotik187/mayachok/issues/new" target="_blank" rel="noopener">🐛 {{tr.report-bug}}</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/doctorkotik187/mayachok" target="_blank" rel="noopener">⭐ GitHub</a>
+  </p>
+</footer>
 </body>
 </html>

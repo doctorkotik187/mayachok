@@ -235,7 +235,9 @@
                         (assoc row
                                :risk_color (avg-score-color (:avg_score row))))
                       raw)
-        locale   (or (get-in request [:params :locale]) "en")]
+        locale   (or (get-in request [:params :locale])
+                         (locale-from request)
+                         "ru")]
     (layout/render request "heatmap.html"
                    {:locale locale
                     :tr (i18n/all-strings locale)
