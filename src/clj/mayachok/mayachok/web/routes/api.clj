@@ -1,7 +1,6 @@
 (ns mayachok.mayachok.web.routes.api
   (:require
     [mayachok.mayachok.web.controllers.health :as health]
-    [mayachok.mayachok.web.controllers.screening :as screening]
     [mayachok.mayachok.web.middleware.exception :as exception]
     [mayachok.mayachok.web.middleware.formats :as formats]
     [integrant.core :as ig]
@@ -41,13 +40,7 @@
            :swagger {:info {:title "mayachok.mayachok API"}}
            :handler (swagger/create-swagger-handler)}}]
    ["/health"
-    {:get #'health/healthcheck!}]
-   ["/screenings"
-    {:post {:handler #'screening/create-screening!}}]
-   ["/screenings/:id"
-    {:get {:handler #'screening/get-screening}}]
-   ["/screenings/:id/survey"
-    {:post {:handler #'screening/update-survey!}}]])
+    {:get #'health/healthcheck!}]])
 
 (derive :reitit.routes/api :reitit/routes)
 
