@@ -6,6 +6,7 @@
     [mayachok.mayachok.web.geocode :as geocode]
     [mayachok.mayachok.web.i18n :as i18n]
     [mayachok.mayachok.web.pages.layout :as layout]
+    [mayachok.mayachok.web.pdf :as pdf]
     [mayachok.mayachok.web.routes.utils :as utils]
     [integrant.core :as ig]
     [reitit.ring.middleware.muuntaja :as muuntaja]
@@ -185,12 +186,29 @@
        :data data
        :data-json (json/write-str data)})))
 
+;; -- pdf ---------------------------------------------------------------------
+
+(defn download-pdf [request]
+  (let [query-fn     (utils/route-data-key request :query-fn)
+        screening-id (get-in request [:path-params :id])]
+    (if-let [s (query-fn :get-screening-by-id {:id screening-id})]
+      (let [locale (or (:locale s) "ru")
+            tr     (i18n/all-strings locale)]
+        (log/info "Generating PDF for screening" screening-id)
+        (let [pdf-bytes (pdf/result-pdf s tr)]
+          {:status  200
+           :headers {"Content-Type"        "application/pdf"
+                    "Content-Disposition" (str "attachment; filename=\"mayachok-" screening-id ".pdf\"")}
+           :body    pdf-bytes}))
+      (layout/render request "error.html" {:status 404 :title "Screening not found"}))))
+
 ;; -- routes -----------------------------------------------------------------
 
 (defn page-routes [_opts]
   [["/" {:get home}]
    ["/screening" {:get show-question}]
    ["/screening/answer" {:post submit-answer}]
+   ["/screenings/:id/pdf" {:get download-pdf}]
    ["/screenings/:id/survey" {:post submit-survey}]
    ["/screenings/:id/region" {:post submit-region}]
    ["/map" {:get show-heatmap}]])
