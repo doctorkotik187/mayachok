@@ -20,7 +20,7 @@ UPDATE screenings SET age_range = :age_range, time_since_birth = :time_since_bir
 UPDATE screenings SET lat = :lat, lng = :lng, location_text = :location_text WHERE id = :id
 
 -- :name heatmap-data :? :*
--- :doc aggregate data for the heatmap: region, count, avg score, risk breakdown
+-- :doc aggregate data for the heatmap, grouped by normalized location
 SELECT
   COALESCE(location_text, 'unknown') as region,
   COUNT(*) as total,

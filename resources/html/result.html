@@ -80,10 +80,9 @@
                             </div>
                         </div>
 
-                        <h4 class="title is-6" style="margin-top: 1.5rem;">{{tr.location-question}}</h4>
+                        <h4 class="title is-6" style="margin-top: 1.5rem;">📍 {{tr.location-question}}</h4>
                         <p class="region-hint">{{tr.location-hint}}</p>
                         <div class="field">
-                            <label class="label">{{tr.location-label}}</label>
                             <div class="control">
                                 <input class="input" type="text" name="location" placeholder="{{tr.location-placeholder}}" />
                             </div>
@@ -111,28 +110,4 @@
 {% endblock %}
 
 {% block extra_body %}
-<script>
-var regions = {
-  "ru": [["ru-mow", "Moscow area"], ["ru-spb", "Saint Petersburg area"], ["ru-nw", "Northwest"], ["ru-cent", "Central Russia"], ["ru-vol", "Volga region"], ["ru-ural", "Ural region"], ["ru-sib", "Siberia"], ["ru-fe", "Far East"], ["ru-south", "Southern Russia"], ["ru-cauc", "North Caucasus"]],
-  "ua": [["ua-kyiv", "Kyiv area"], ["ua-east", "Eastern Ukraine"], ["ua-west", "Western Ukraine"], ["ua-south", "Southern Ukraine"], ["ua-cent", "Central Ukraine"]],
-  "de": [["de-bav", "Bavaria"], ["de-nrw", "North Rhine-Westphalia"], ["de-bb", "Brandenburg / Berlin"], ["de-hh", "Hamburg / Schleswig-Holstein"], ["de-he", "Hesse"], ["de-sn", "Saxony"], ["de-bw", "Baden-Württemberg"], ["de-other", "Other regions"]],
-  "us": [["us-ne", "Northeast"], ["us-se", "Southeast"], ["us-mw", "Midwest"], ["us-sw", "Southwest"], ["us-w", "West Coast"], ["us-other", "Other"]]
-};
-document.getElementById('region-country').addEventListener('change', function() {
-  var country = this.value;
-  var regionSelect = document.getElementById('region-region');
-  regionSelect.innerHTML = '<option value="">Select region</option>';
-  if (country && regions[country]) {
-    regions[country].forEach(function(r) {
-      var opt = document.createElement('option');
-      opt.value = r[0];
-      opt.textContent = r[1];
-      regionSelect.appendChild(opt);
-    });
-    regionSelect.disabled = false;
-  } else {
-    regionSelect.disabled = true;
-  }
-});
-</script>
 {% endblock %}
