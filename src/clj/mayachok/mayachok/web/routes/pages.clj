@@ -64,10 +64,6 @@
 (defn- locale-from [request]
   (or (:locale (:params request)) (:locale (:query-params request)) "ru"))
 
-(defn- tr [locale k & args]
-  (let [s (i18n/t locale k)]
-    (if args (apply format s args) s)))
-
 ;; -- landing page -----------------------------------------------------------
 
 (defn home [request]
@@ -83,13 +79,14 @@
         answers (if (:answers p) (json/read-str (:answers p) :key-fn keyword) [])
         qs (questions-for locale)
         qd (get qs q-num)
-        answers-json (json/write-str answers)]
+        answers-json (json/write-str answers)
+        tr (i18n/all-strings locale)]
     (layout/render request "question.html"
       {:locale locale :q-num q-num :question-text (:text qd) :options (:options qd)
        :answers answers-json :progress (* 10 q-num) :animal (random-animal)
-       :tr {:app-name (tr locale :app-name) :question-of (tr locale :question-of q-num)
-            :question-title (tr locale :question-title q-num) :next-button (tr locale :next-button)
-            :finish-button (tr locale :finish-button) :lang-switch (tr locale :lang-switch)}})))
+       :tr tr
+       :question-of-text (format (:question-of tr) q-num)
+       :question-title-text (format (:question-title tr) q-num)})))
 
 ;; -- process answer ----------------------------------------------------------
 
@@ -114,34 +111,14 @@
              :lat nil :lng nil :location_text nil})
           (catch Exception e (log/error e "failed to save screening")))
         (let [risk   (:risk-level result)
-              crisis (get epds/crisis-resources (keyword locale) (epds/crisis-resources :ru))]
+              crisis (get epds/crisis-resources (keyword locale) (epds/crisis-resources :ru))
+              tr     (i18n/all-strings locale)]
           (layout/render request "result.html"
             {:locale locale :total-score (:total-score result) :q10-score (:q10-score result)
              :risk-level risk :risk-label (risk-label locale risk) :risk-color (risk-color risk)
              :recommendation (risk-rec locale risk) :crisis crisis
              :show-crisis (pos? (:q10-score result)) :screening-id screening-id
-             :tr {:app-name (tr locale :app-name) :your-result (tr locale :your-result)
-                  :result-title (tr locale :result-title) :out-of (tr locale :out-of)
-                  :retake (tr locale :retake) :crisis-title (tr locale :crisis-title)
-                  :open-source (tr locale :open-source)
-                  :survey-title (tr locale :survey-title) :survey-hint (tr locale :survey-hint)
-                  :survey-age (tr locale :survey-age) :survey-birth (tr locale :survey-birth)
-                  :survey-first (tr locale :survey-first) :survey-skip (tr locale :survey-skip)
-                  :survey-yes (tr locale :survey-yes) :survey-no (tr locale :survey-no)
-                  :location-question (tr locale :location-question)
-                  :location-hint (tr locale :location-hint)
-                  :location-placeholder (tr locale :location-placeholder)
-                  :survey-submit (tr locale :survey-submit)
-                  :survey-birth-0-6w (tr locale :survey-birth-0-6w)
-                  :survey-birth-6w-3m (tr locale :survey-birth-6w-3m)
-                  :survey-birth-3-6m (tr locale :survey-birth-3-6m)
-                  :survey-birth-6m+ (tr locale :survey-birth-6m+)
-                  :region-question (tr locale :region-question)
-                  :region-hint (tr locale :region-hint)
-                  :region-select-country (tr locale :region-select-country)
-                  :region-select-region (tr locale :region-select-region)
-                  :region-submit (tr locale :region-submit)
-                  :region-skip (tr locale :region-skip)}})))
+             :tr tr})))
       (show-question {:params {:q (str (inc q-num)) :locale locale
                                :answers (json/write-str answers')}}))))
 
