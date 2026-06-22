@@ -1,0 +1,177 @@
+{:last-reviewed "06-2026"
+
+ :resources
+ {:ru
+  {:crisis
+   [{:name "МЧС — Интернет-служба экстренной психологической помощи"
+     :type :hotline+chat
+     :phone "+7 (495) 989-50-50"
+     :url "https://psi.mchs.gov.ru"
+     :hours "24/7"
+     :description "Официальная служба МЧС. Телефон + анонимный текстовый чат на сайте. Без регистрации."}
+
+    {:name "Единый телефон психологической помощи (Минздрав)"
+     :type :hotline
+     :phone "8-800-100-49-94"
+     :hours "24/7"
+     :description "Федеральная линия психологической помощи для взрослых и детей."}
+
+    {:name "Кризисная линия доверия"
+     :type :hotline
+     :phone "8-800-333-44-34"
+     :hours "24/7"
+     :description "Общероссийская кризисная линия. Депрессия, суицидальные мысли, эмоциональное расстройство."}
+
+    {:name "Московская служба психологической помощи"
+     :type :hotline
+     :phone "8 (495) 051"
+     :hours "24/7"
+     :description "Городская служба. Может направить к местным специалистам."}]
+
+   :postpartum
+   [{:name "«Ты в порядке» — Служба поддержки уставших мам"
+     :type :consultations
+     :url "https://тывпорядке.рф"
+     :description "Бесплатные онлайн-консультации с психологами-волонтёрами, специализирующимися на послеродовых расстройствах. Поддержан Фондом президентских грантов. Не кризисная линия — для острых состояний сначала звоните в МЧС/112."}
+
+    {:name "#бережноксебе — Группы поддержки"
+     :type :support-groups
+     :url "https://postpartum.ru"
+     :description "Сообщество поддержки при послеродовой депрессии. Страница с ресурсами: postpartum.ru/help"}]
+
+   :chat
+   [{:name "ПомощьРядом.рф"
+     :type :chat
+     :url "https://pomoschryadom.ru"
+     :hours "11:00–23:00 МСК"
+     :description "Анонимный чат с психологом. Без регистрации."}
+
+    {:name "Твоя Территория Онлайн"
+     :type :chat
+     :url "https://твоятерритория.онлайн"
+     :hours "15:00–22:00 МСК"
+     :description "Анонимный онлайн-чат с консультантами."}]
+
+   :telegram
+   [{:name "@postpartumru"
+     :type :channel
+     :url "https://t.me/postpartumru"
+     :description "Образовательный канал о послеродовой депрессии. Ведёт клинический психолог."}
+
+    {:name "«Ты в порядке»"
+     :type :channel
+     :url "https://t.me/tvporyadke"
+     :description "Официальный канал службы поддержки мам."}]}
+
+  :en
+  {:crisis
+   [{:name "988 Suicide & Crisis Lifeline"
+     :type :hotline+chat
+     :phone "988"
+     :url "https://988lifeline.org/chat"
+     :hours "24/7"
+     :description "US national crisis line. Trained counselors for all mental health crises including postpartum."}
+
+    {:name "National Maternal Mental Health Hotline"
+     :type :hotline
+     :phone "1-833-852-6262"
+     :hours "24/7"
+     :description "Specifically for pregnant and postpartum mothers. Professional counselors. Interpreters in 60+ languages."}
+
+    {:name "Crisis Text Line"
+     :type :text
+     :phone "Text HOME to 741741"
+     :hours "24/7"
+     :description "Text-based crisis support. Ideal for mothers who can't speak on the phone."}]
+
+   :postpartum
+   [{:name "Postpartum Support International (PSI) HelpLine"
+     :type :warmline
+     :phone "1-800-944-4773"
+     :url "https://postpartum.net"
+     :description "Warmline with trained volunteers with lived PPD experience. Callbacks within hours."}
+
+    {:name "PSI Free Online Support Groups"
+     :type :support-groups
+     :url "https://postpartum.net/get-help/psi-online-support-meetings/"
+     :description "50+ free weekly Zoom groups for PPD, birth trauma, NICU parents, and more. International participants welcome."}
+
+    {:name "PSI Online Provider Directory"
+     :type :directory
+     :url "https://postpartum.net/get-help/find-a-local-support/"
+     :description "Directory of clinicians with perinatal mental health specialization."}]}
+
+  :de
+  {:crisis
+   [{:name "TelefonSeelsorge"
+     :type :hotline+chat
+     :phone "0800 111 0 111"
+     :url "https://online.telefonseelsorge.de"
+     :hours "24/7"
+     :description "Немецкая телефонная служба доверия. Телефон, чат и email. Анонимно."}
+
+    {:name "Info-Telefon Depression"
+     :type :hotline
+     :phone "0800 33 44 533"
+     :hours "Пн, Вт, Чт: 13–17 / Ср, Пт: 8:30–12:30"
+     :description "Информационная линия по депрессии. Помогает понять симптомы и найти лечение."}]
+
+   :postpartum
+   [{:name "Schatten & Licht e.V."
+     :type :support-groups+forum
+     :url "https://schatten-und-licht.de"
+     :description "Ведущая немецкая НКО по послеродовым расстройствам. Форум, группы поддержки, телефонное консультирование."}
+
+    {:name "Nummer gegen Kummer — Elterntelefon"
+     :type :hotline
+     :phone "0800 111 0 550"
+     :hours "Пн, Ср, Пт: 9–17 / Вт, Чт: 9–19"
+     :description "Линия для родителей, испытывающих трудности с воспитанием."}
+
+    {:name "Frühe Hilfen (Ранняя помощь)"
+     :type :referral
+     :url "https://fruehehilfen.de"
+     :description "Федеральная сеть для родителей детей 0–3 лет. Анонимное консультирование."}]}
+
+  :uk
+  {:crisis
+   [{:name "Lifeline Ukraine"
+     :type :hotline
+     :phone "7333"
+     :url "https://lifelineukraine.com"
+     :hours "24/7 (уточнить перед публикацией)"
+     :description "Национальная линия предотвращения суицида. Профессиональные кризисные психологи."}
+
+    {:name "Людина в біді (Human in Need)"
+     :type :hotline
+     :phone "0 800 210 160"
+     :hours "24/7"
+     :description "Анонимная психологическая поддержка и кризисная помощь."}]
+
+   :support
+   [{:name "IOM Emotional Support Hotline"
+     :type :hotline
+     :phone "0-800-211-444"
+     :url "https://iom-emotionline.com.ua"
+     :hours "10:00–20:00 (Киев)"
+     :description "Консультации с профессиональными психологами. Украинский, русский, английский языки."}
+
+    {:name "Mental Help Ukraine"
+     :type :platform
+     :url "https://mentalhelp.com.ua"
+     :description "Онлайн-платформа бесплатной профессиональной психологической помощи."}]}
+
+  :_global
+  {:directories
+   [{:name "findahelpline.com"
+     :type :directory
+     :url "https://findahelpline.com"
+     :description "Верифицированный каталог кризисных линий по всему миру. Фильтрация по стране, языку, теме."}]
+
+   :ai-prompt
+   {:title "Подсказка для AI-чата"
+    :description "Скопируйте этот шаблон и вставьте в ChatGPT или другой AI-чат, заполнив свои данные."
+    :template-ru "Я прошла скрининг послеродовой депрессии (Эдинбургская шкала). Мой балл: {{score}}/30. У меня следующие ответы: {{answers}}. Я не в непосредственной опасности, но чувствую себя плохо. Я молодая мама и не знаю, куда обратиться. Пожалуйста, отвечайте тепло и без осуждения. Помогите мне понять, что я могу испытывать, и предложите одну-две конкретные вещи, которые я могу сделать прямо сейчас, чтобы почувствовать себя безопаснее."
+    :template-en "I just completed a postpartum depression screening (Edinburgh Scale). My score was {{score}}/30. Here are my answers: {{answers}}. I'm not in immediate danger, but I'm feeling really bad. I'm a new mother and I don't know where to turn. Please respond with warmth and without judgment. Help me understand what I might be experiencing, and suggest one or two small, concrete things I could do right now to feel safer."
+    :template-de "Ich habe ein Screening auf postpartale Depression durchgeführt (Edinburgh-Skala). Mein Ergebnis war {{score}}/30. Hier sind meine Antworten: {{answers}}. Ich bin nicht in unmittelbarer Gefahr, aber ich fühle mich schlecht. Ich bin eine junge Mutter und weiß nicht, wohin ich mich wenden soll. Bitte antwarmen Sie warm und ohne Urteil. Helfen Sie mir zu verstehen, was ich erleben könnte, und schlagen Sie ein oder zwei kleine, konkrete Dinge vor, die ich jetzt tun kann, um mich sicherer zu fühlen."
+    :template-uk "Я пройшла скринінг післяполової депресії (Единбурзька шкала). Мій бал: {{score}}/30. Ось мої відповіді: {{answers}}. Я не в безпосередній небезпеці, але почуваюся погано. Я молода мама і не знаю, куди звернутися. Будь ласка, відповідайте тепло і без осуду. Допоможіть мені зрозуміти, що я можу переживати, і запропонуйте одну-дві конкретні речі, які я можу зробити прямо зараз, щоб відчути себе безпечніше."}}}}

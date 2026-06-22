@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}{{tr.help-title}}{% endblock %}
+
+{% block body %}
+<section class="section">
+    <div class="container help-container">
+        <div class="card">
+            <div class="card-content">
+                <h1 class="title is-3 has-text-centered">{{tr.help-title}}</h1>
+                <p class="subtitle is-5 has-text-centered">{{tr.help-subtitle}}</p>
+
+                <!-- Crisis Resources -->
+                <div class="content">
+                    <h2 class="title is-5">{{tr.help-crisis-title}}</h2>
+                    {% for resource in crisis %}
+                    <div class="box resource-box">
+                        <h3 class="title is-6">{{resource.name}}</h3>
+                        {% if resource.phone %}
+                        <p><strong>📞</strong> <a href="tel:{{resource.phone}}">{{resource.phone}}</a></p>
+                        {% endif %}
+                        {% if resource.url %}
+                        <p><strong>🌐</strong> <a href="{{resource.url}}" target="_blank" rel="noopener">{{resource.url}}</a></p>
+                        {% endif %}
+                        {% if resource.hours %}
+                        <p><strong>🕐</strong> {{resource.hours}}</p>
+                        {% endif %}
+                        {% if resource.description %}
+                        <p class="help-text">{{resource.description}}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Postpartum Support -->
+                <div class="content">
+                    <h2 class="title is-5">{{tr.help-postpartum-title}}</h2>
+                    {% for resource in postpartum %}
+                    <div class="box resource-box">
+                        <h3 class="title is-6">{{resource.name}}</h3>
+                        {% if resource.url %}
+                        <p><strong>🌐</strong> <a href="{{resource.url}}" target="_blank" rel="noopener">{{resource.url}}</a></p>
+                        {% endif %}
+                        {% if resource.description %}
+                        <p class="help-text">{{resource.description}}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Online Chat -->
+                <div class="content">
+                    <h2 class="title is-5">{{tr.help-chat-title}}</h2>
+                    {% for resource in chat %}
+                    <div class="box resource-box">
+                        <h3 class="title is-6">{{resource.name}}</h3>
+                        {% if resource.url %}
+                        <p><strong>🌐</strong> <a href="{{resource.url}}" target="_blank" rel="noopener">{{resource.url}}</a></p>
+                        {% endif %}
+                        {% if resource.hours %}
+                        <p><strong>🕐</strong> {{resource.hours}}</p>
+                        {% endif %}
+                        {% if resource.description %}
+                        <p class="help-text">{{resource.description}}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Telegram -->
+                <div class="content">
+                    <h2 class="title is-5">{{tr.help-tg-title}}</h2>
+                    {% for resource in telegram %}
+                    <div class="box resource-box">
+                        <h3 class="title is-6">{{resource.name}}</h3>
+                        {% if resource.url %}
+                        <p><strong>📱</strong> <a href="{{resource.url}}" target="_blank" rel="noopener">{{resource.url}}</a></p>
+                        {% endif %}
+                        {% if resource.description %}
+                        <p class="help-text">{{resource.description}}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Global Resources -->
+                <div class="content">
+                    <h2 class="title is-5">{{tr.help-global-title}}</h2>
+                    {% for resource in global %}
+                    <div class="box resource-box">
+                        <h3 class="title is-6">{{resource.name}}</h3>
+                        {% if resource.url %}
+                        <p><strong>🌐</strong> <a href="{{resource.url}}" target="_blank" rel="noopener">{{resource.url}}</a></p>
+                        {% endif %}
+                        {% if resource.description %}
+                        <p class="help-text">{{resource.description}}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- AI Prompt -->
+                <div class="content">
+                    <h2 class="title is-5">{{tr.help-ai-title}}</h2>
+                    <div class="box resource-box">
+                        <p class="help-text">{{tr.help-ai-desc}}</p>
+                        <div class="field">
+                            <textarea class="textarea ai-prompt" rows="6" readonly>{{ai-prompt}}</textarea>
+                        </div>
+                        <button class="button is-light is-small" onclick="navigator.clipboard.writeText(document.querySelector('.ai-prompt').value)">
+                            📋 {{tr.help-ai-button}}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="content has-text-centered">
+                    <p class="help-text">{{tr.help-disclaimer}}</p>
+                    <p class="help-text is-size-7">{{tr.help-last-reviewed}} {{last-reviewed}}</p>
+                </div>
+
+                <div class="buttons is-centered">
+                    <a class="button is-primary is-rounded" href="/">{{tr.retake}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

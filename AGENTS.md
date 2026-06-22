@@ -33,11 +33,11 @@ This is **not** a chatbot. It does not generate advice. It runs a validated ques
 - Tests: 20 passing, covering scoring boundaries and risk levels
 
 **Not yet built:**
-- `/resources` page (crisis hotlines, therapist directories by country)
-- PDF export of results
-- Aggregate statistics page
-- PWA manifest / offline support
-- Additional languages
+- [x] `/help` page (crisis hotlines, therapist directories by country, Telegram channels, AI chat prompt)
+- [x] PDF export of results
+- [ ] Aggregate statistics page
+- [ ] PWA manifest / offline support
+- [ ] Additional languages
 
 ---
 
@@ -53,6 +53,7 @@ mayachok/
 │   ├── system.edn                         ← Integrant system config
 │   ├── sql/
 │   │   └── queries.sql                    ← ALL database queries (HugSQL)
+│   ├── help-resources.edn                 ← Help page resources (editable by community)
 │   └── migrations/                        ← SQL migration files (Migratus)
 │       └── 20260620084501-create-screenings-table.up.sql
 ├── resources/public/                      ← Static assets served by Undertow
@@ -64,6 +65,7 @@ mayachok/
 │   ├── home.html                          ← Landing page
 │   ├── question.html                      ← Single question (radio options, progress)
 │   ├── result.html                        ← Score + risk + crisis alert + survey
+│   ├── help.html                          ← Resources page (hotlines, chat, Telegram, AI prompt)
 │   └── error.html                         ← Error page
 ├── src/clj/mayachok/mayachok/
 │   ├── core.clj                           ← System init, (go) / (halt) / (reset)

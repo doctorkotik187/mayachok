@@ -1,6 +1,9 @@
 (ns mayachok.mayachok.web.routes.pages
   (:require
    [clojure.data.json :as json]
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
    [mayachok.mayachok.domain.epds :as epds]
    [mayachok.mayachok.web.geocode :as geocode]
@@ -184,6 +187,70 @@
                     :data data
                     :data-json (json/write-str data)})))
 
+;; -- help resources ----------------------------------------------------------
+
+(def ^:private help-resources
+  (edn/read-string (slurp (clojure.java.io/resource "help-resources.edn"))))
+
+(defn- get-help-resources [locale]
+  (let [locale-key (keyword locale)]
+    (get-in help-resources [:resources locale-key]
+            (get-in help-resources [:resources :en]))))
+
+(defn show-help [request]
+  (let [locale       (or (get-in request [:params :locale])
+                         (locale-from request)
+                         "ru")
+        screening-id (get-in request [:params :screening_id])
+        query-fn     (utils/route-data-key request :query-fn)
+        tr           (i18n/all-strings locale)
+        res          (get-help-resources locale)
+        qs           (get epds/questions (keyword locale) (epds/questions :ru))
+
+        _ (log/info "Help page: locale=" locale "params=" (:params request) "all-keys=" (keys (:params request)))
+
+        ai-prompt
+        (let [template (get-in help-resources [:resources :_global :ai-prompt
+                                                (keyword (str "template-" locale))]
+                               (get-in help-resources [:resources :_global :ai-prompt :template-en]))]
+          (if-let [s (when (and screening-id query-fn)
+                       (let [result (query-fn :get-screening-by-id {:id screening-id})]
+                         (log/info "Screening lookup result:" (boolean result))
+                         result))]
+            (let [score      (:total_score s)
+                  answers    (pdf/parse-answers (:answers s))
+                  answer-str (when (seq answers)
+                               (str/join "; "
+                                 (map (fn [{:keys [question answer]}]
+                                        (let [qd   (get qs question)
+                                              text (:text qd)
+                                              opts (:options qd)
+                                              label (if (and opts (<= 0 answer (dec (count opts))))
+                                                      (get opts answer)
+                                                      (str answer))]
+                                          (str "Q" question ": " text " → " label)))
+                                      answers)))]
+              (log/info "AI prompt: score=" score "answers=" (count answers))
+              (-> template
+                  (str/replace "{{score}}" (str score))
+                  (str/replace "{{answers}}" (or answer-str ""))))
+            (do (log/info "No screening data, using template as-is")
+                (-> template
+                    (str/replace "{{score}}" "[score]")
+                    (str/replace "{{answers}}" "[your answers]")))))]
+
+    (log/info "Showing help page for locale:" locale)
+    (layout/render request "help.html"
+      {:locale locale
+       :tr tr
+       :crisis (:crisis res)
+       :postpartum (:postpartum res)
+       :chat (:chat res)
+       :telegram (:telegram res)
+       :global (get-in help-resources [:resources :_global :directories])
+       :ai-prompt ai-prompt
+       :last-reviewed (:last-reviewed help-resources "06-2026")})))
+
 ;; -- pdf ---------------------------------------------------------------------
 
 (defn download-pdf [request]
@@ -207,6 +274,7 @@
    ["/screening" {:get show-question}]
    ["/screening/answer" {:post submit-answer}]
    ["/screenings/:id/pdf" {:get download-pdf}]
+   ["/help" {:get show-help}]
    ["/screenings/:id/survey" {:post submit-survey}]
    ["/screenings/:id/region" {:post submit-region}]
    ["/map" {:get show-heatmap}]])

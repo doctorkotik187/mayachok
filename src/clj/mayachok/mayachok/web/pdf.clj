@@ -69,7 +69,9 @@
         (subs ts 0 10)
         (str ts)))))
 
-(defn- parse-answers [answers-field]
+(defn parse-answers
+  "Parse answers from a JSON string or collection."
+  [answers-field]
   (when answers-field
     (try
       (let [parsed (if (string? answers-field)

@@ -192,6 +192,52 @@
   margin-top: 8px;
 }
 
+.help-container {
+  max-width: 640px;
+}
+
+.resource-box {
+  background: #fff7ed;
+  border-left: 4px solid #f59e0b;
+}
+
+.resource-box p {
+  margin-bottom: 0.3rem;
+}
+
+.help-text {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.ai-prompt {
+  font-family: monospace;
+  font-size: 0.85rem;
+  background: #fafafa;
+}
+
+@media (prefers-color-scheme: dark) {
+  .resource-box {
+    background: #2a1f0f;
+    border-left-color: #f59e0b;
+  }
+
+  .resource-box p,
+  .resource-box h3,
+  .resource-box h2 {
+    color: #e0e0e0;
+  }
+
+  .help-text {
+    color: #aaa;
+  }
+
+  .ai-prompt {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
+}
+
 @keyframes gentleBounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }

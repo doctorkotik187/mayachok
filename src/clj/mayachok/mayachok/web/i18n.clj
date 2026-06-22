@@ -47,7 +47,19 @@
     :region-view-map "Посмотреть карту"
     :location-question "Где вы находитесь?"
     :location-hint "Введите город или регион в свободной форме. Данные анонимны."
-    :location-placeholder "Например: Санкт-Петербург, Київ, Berlin..."}
+    :location-placeholder "Например: Санкт-Петербург, Київ, Berlin..."
+    :help-title "Куда обратиться за помощью"
+    :help-subtitle "Вы не одни. Помощь доступна прямо сейчас."
+    :help-crisis-title "🆘 Кризисная помощь (24/7)"
+    :help-postpartum-title "🤱 Поддержка для мам"
+    :help-chat-title "💬 Онлайн-чат"
+    :help-tg-title "📱 Telegram"
+    :help-global-title "🌍 Международные ресурсы"
+    :help-ai-title "💡 Подсказка для AI-чата"
+    :help-ai-desc "Скопируйте шаблон и вставьте в ChatGPT или другой AI-чат:"
+    :help-ai-button "Скопировать"
+    :help-disclaimer "Этот результат не является диагнозом. Обратитесь к специалисту."
+    :help-last-reviewed "Обновлено:"}
 
    :en
    {:app-name "Mayachok"
@@ -99,7 +111,19 @@
     :heatmap-avg-score "Avg score"
     :heatmap-risk-breakdown "Risk breakdown"
     :heatmap-map-hint "Interactive map coming soon. For now, here is the data by region."
-    :heatmap-no-data "No data yet. Please complete a screening and share your region."}
+    :heatmap-no-data "No data yet. Please complete a screening and share your region."
+    :help-title "Where to Get Help"
+    :help-subtitle "You are not alone. Help is available right now."
+    :help-crisis-title "🆘 Crisis Lines (24/7)"
+    :help-postpartum-title "🤱 Postpartum Support"
+    :help-chat-title "💬 Online Chat"
+    :help-tg-title "📱 Telegram"
+    :help-global-title "🌍 International Resources"
+    :help-ai-title "💡 AI Chat Prompt"
+    :help-ai-desc "Copy this template and paste into ChatGPT or another AI chat:"
+    :help-ai-button "Copy"
+    :help-disclaimer "This result is not a diagnosis. Please consult a specialist."
+    :help-last-reviewed "Last reviewed:"}
 
    :de
    {:app-name "Mayachok"
@@ -150,7 +174,19 @@
     :heatmap-screenings "Screenings"
     :heatmap-avg-score "Ø Score"
     :heatmap-risk-breakdown "Risiko-Aufschlüsselung"
-    :heatmap-no-data "Noch keine Daten. Bitte füllen Sie ein Screening aus und teilen Sie Ihre Region."}
+    :heatmap-no-data "Noch keine Daten. Bitte füllen Sie ein Screening aus und teilen Sie Ihre Region."
+    :help-title "Wo man Hilfe findet"
+    :help-subtitle "Sie sind nicht allein. Hilfe ist jetzt verfügbar."
+    :help-crisis-title "🆘 Krisen-Hotlines (24/7)"
+    :help-postpartum-title "🤱 Unterstützung für Mütter"
+    :help-chat-title "💬 Online-Chat"
+    :help-tg-title "📱 Telegram"
+    :help-global-title "🌍 Internationale Ressourcen"
+    :help-ai-title "💡 AI-Chat-Vorlage"
+    :help-ai-desc "Kopieren Sie diese Vorlage und fügen Sie sie in ChatGPT oder einen anderen AI-Chat ein:"
+    :help-ai-button "Kopieren"
+    :help-disclaimer "Dieses Ergebnis ist keine Diagnose. Bitte konsultieren Sie einen Spezialisten."
+    :help-last-reviewed "Stand:"}
 
    :uk
    {:app-name "Маячок"
@@ -200,7 +236,19 @@
     :heatmap-screenings "Опитувань"
     :heatmap-avg-score "Сер. бал"
     :heatmap-risk-breakdown "Ризик"
-    :heatmap-no-data "Поки що немає даних. Будь ласка, пройдіть опитування та поділіться своїм регіоном."}})
+    :heatmap-no-data "Поки що немає даних. Будь ласка, пройдіть опитування та поділіться своїм регіоном."
+    :help-title "Куди звернутися за допомогою"
+    :help-subtitle "Ви не самі. Допомога доступна прямо зараз."
+    :help-crisis-title "🆘 Кризова допомога (24/7)"
+    :help-postpartum-title "🤱 Підтримка для мам"
+    :help-chat-title "💬 Онлайн-чат"
+    :help-tg-title "📱 Telegram"
+    :help-global-title "🌍 Міжнародні ресурси"
+    :help-ai-title "💡 Підказка для AI-чату"
+    :help-ai-desc "Скопіюйте шаблон і вставте в ChatGPT або інший AI-чат:"
+    :help-ai-button "Скопіювати"
+    :help-disclaimer "Цей результат не є діагнозом. Зверніться до спеціаліста."
+    :help-last-reviewed "Оновлено:"}})
 
 ;; -- Lookup -----------------------------------------------------------------
 
