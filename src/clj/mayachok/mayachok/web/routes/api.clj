@@ -11,6 +11,7 @@
    [reitit.ring.middleware.muuntaja :as muuntaja]
    [reitit.ring.middleware.parameters :as parameters]
    [reitit.swagger :as swagger]
+   [reitit.swagger-ui :as swagger-ui]
    [ring.util.http-response :as http-response]))
 
 (defn- route-data [opts]
@@ -18,21 +19,13 @@
    {:coercion   malli/coercion
     :muuntaja   formats/instance
     :swagger    {:id ::api}
-    :middleware [;; query-params & form-params
-                 parameters/parameters-middleware
-                    ;; content-negotiation
+    :middleware [parameters/parameters-middleware
                  muuntaja/format-negotiate-middleware
-                    ;; encoding response body
                  muuntaja/format-response-middleware
-                    ;; exception handling
                  coercion/coerce-exceptions-middleware
-                    ;; decoding request body
                  muuntaja/format-request-middleware
-                    ;; coercing response bodys
                  coercion/coerce-response-middleware
-                    ;; coercing request parameters
                  coercion/coerce-request-middleware
-                    ;; exception handling
                  exception/wrap-exception]}
    (select-keys opts [:query-fn])))
 
@@ -69,16 +62,36 @@
         (log/error e "failed to fetch stats")
         (http-response/internal-server-error {:error "Failed to fetch stats"})))))
 
-;; Routes
+;; -- routes ------------------------------------------------------------------
+
 (defn- api-routes []
   [["/swagger.json"
     {:get {:no-doc  true
-           :swagger {:info {:title "mayachok.mayachok API"}}
+           :swagger {:info {:title "Mayachok API"
+                           :description "Postpartum depression screening API"
+                           :version "1.0.0"}}
            :handler (swagger/create-swagger-handler)}}]
+   ["/api-docs/*"
+    {:get (swagger-ui/create-swagger-ui-handler
+           {:url "/api/swagger.json"
+            :config {:validator-url nil}})}]
    ["/health"
-    {:get #'health/healthcheck!}]
+    {:get {:handler #'health/healthcheck!
+           :summary "Health check"
+           :responses {200 {:body {:status string?}}}}}]
    ["/stats"
-    {:get #'stats-handler}]])
+    {:get {:handler #'stats-handler
+           :summary "Screening statistics"
+           :parameters {:query [:map
+                                [:risk {:optional true} string?]
+                                [:region {:optional true} string?]
+                                [:limit {:optional true} int?]]}
+           :responses {200 {:body [:map
+                                   [:total int?]
+                                   [:risk [:map-of keyword? int?]]
+                                   [:regions [:map-of string? int?]]
+                                   [:screenings [:vector :map]]]}
+                      500 {:body {:error string?}}}}}]])
 
 (derive :reitit.routes/api :reitit/routes)
 
