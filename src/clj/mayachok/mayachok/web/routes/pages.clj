@@ -3,6 +3,7 @@
     [clojure.data.json :as json]
     [clojure.tools.logging :as log]
     [mayachok.mayachok.domain.epds :as epds]
+    [mayachok.mayachok.web.geocode :as geocode]
     [mayachok.mayachok.web.i18n :as i18n]
     [mayachok.mayachok.web.pages.layout :as layout]
     [mayachok.mayachok.web.routes.utils :as utils]
@@ -110,7 +111,7 @@
              :answers (json/write-str answers') :total_score (:total-score result)
              :q10_score (:q10-score result) :risk_level (name (:risk-level result))
              :age_range nil :time_since_birth nil :first_child nil
-             :region_code nil})
+             :lat nil :lng nil :location_text nil})
           (catch Exception e (log/error e "failed to save screening")))
         (let [risk   (:risk-level result)
               crisis (get epds/crisis-resources (keyword locale) (epds/crisis-resources :ru))]
@@ -144,24 +145,25 @@
 ;; -- survey ------------------------------------------------------------------
 
 (defn submit-survey [request]
-  (let [p          (:form-params request)
-        id         (get-in request [:path-params :id])
-        age-range  (get p "age_range")
-        time-since (get p "time_since_birth")
+  (let [p           (:form-params request)
+        id          (get-in request [:path-params :id])
+        age-range   (get p "age_range")
+        time-since  (get p "time_since_birth")
         first-child (get p "first_child")
-        country    (get p "country_code")
-        region     (get p "region_code")
-        query-fn   (utils/route-data-key request :query-fn)]
+        location    (get p "location")
+        query-fn    (utils/route-data-key request :query-fn)]
     (when query-fn
       (try
         (query-fn :update-survey! {:id id :age_range age-range :time_since_birth time-since :first_child (or first-child "")})
         (catch Exception e
           (log/error e "failed to update survey")))
-      (when (and country region)
+      (when (and location (not= "" (.trim location)))
         (try
-          (query-fn :update-region! {:id id :region_code region})
+          (if-let [coords (geocode/geocode location)]
+            (query-fn :update-location! {:id id, :lat (:lat coords), :lng (:lng coords), :location_text (:display coords)})
+            (log/warn "geocoding returned nil for location:" location))
           (catch Exception e
-            (log/error e "failed to update region")))))
+            (log/error e "failed to geocode location")))))
     (layout/render request "survey-thankyou.html"
       {:locale (or (get p "locale") "ru")
        :tr (i18n/all-strings (or (get p "locale") "ru"))})))
@@ -180,22 +182,7 @@
       {:locale (or (get p "locale") "ru")
        :tr (i18n/all-strings (or (get p "locale") "ru"))})))
 
-(def ^:private region-coords
-  {"ru-mow" {:lat 55.75 :lng 37.62} "ru-spb" {:lat 59.93 :lng 30.32}
-   "ru-nw" {:lat 60.0 :lng 32.0} "ru-cent" {:lat 56.0 :lng 40.0}
-   "ru-vol" {:lat 56.0 :lng 44.0} "ru-ural" {:lat 56.8 :lng 60.6}
-   "ru-sib" {:lat 56.0 :lng 83.0} "ru-fe" {:lat 48.0 :lng 135.0}
-   "ru-south" {:lat 47.0 :lng 40.0} "ru-cauc" {:lat 44.0 :lng 44.0}
-   "ua-kyiv" {:lat 50.45 :lng 30.52} "ua-east" {:lat 48.5 :lng 37.0}
-   "ua-west" {:lat 49.0 :lng 25.0} "ua-south" {:lat 46.5 :lng 32.0}
-   "ua-cent" {:lat 49.0 :lng 31.0}
-   "de-bav" {:lat 48.8 :lng 11.5} "de-nrw" {:lat 51.5 :lng 7.5}
-   "de-bb" {:lat 52.0 :lng 13.5} "de-hh" {:lat 53.6 :lng 10.0}
-   "de-he" {:lat 50.1 :lng 8.7} "de-sn" {:lat 51.0 :lng 13.0}
-   "de-bw" {:lat 48.8 :lng 9.2} "de-other" {:lat 51.0 :lng 10.0}
-   "us-ne" {:lat 40.7 :lng -74.0} "us-se" {:lat 33.7 :lng -84.4}
-   "us-mw" {:lat 41.9 :lng -87.6} "us-sw" {:lat 33.4 :lng -112.1}
-   "us-w" {:lat 37.8 :lng -122.4} "us-other" {:lat 39.8 :lng -98.6}})
+
 
 (defn- avg-score-color [avg]
   (cond
@@ -208,11 +195,8 @@
   (let [query-fn (utils/route-data-key request :query-fn)
         raw     (or (query-fn :heatmap-data {}) [])
         data    (mapv (fn [row]
-                        (let [code (:region_code row)
-                              coords (get region-coords code)]
-                          (assoc row
-                                 :risk_color (avg-score-color (:avg_score row))
-                                 :coords coords)))
+                        (assoc row
+                               :risk_color (avg-score-color (:avg_score row))))
                       raw)
         locale   (or (get-in request [:params :locale]) "en")]
     (layout/render request "heatmap.html"

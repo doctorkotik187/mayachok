@@ -19,6 +19,9 @@
                                             :exclusions [com.cognitect/transit-clj]}
            metosin/muuntaja {:mvn/version "0.6.11"}
 
+           ;; JSON
+           org.clojure/data.json {:mvn/version "2.5.1"}
+
            ;; kit Libs
            io.github.kit-clj/kit-core {:mvn/version "1.0.10"}
            io.github.kit-clj/kit-undertow {:mvn/version "1.0.14"}

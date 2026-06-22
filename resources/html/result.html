@@ -80,30 +80,12 @@
                             </div>
                         </div>
 
-                        <h4 class="title is-6" style="margin-top: 1.5rem;">{{tr.region-question}}</h4>
-                        <p class="region-hint">{{tr.region-hint}}</p>
+                        <h4 class="title is-6" style="margin-top: 1.5rem;">{{tr.location-question}}</h4>
+                        <p class="region-hint">{{tr.location-hint}}</p>
                         <div class="field">
-                            <label class="label">{{tr.region-select-country}}</label>
+                            <label class="label">{{tr.location-label}}</label>
                             <div class="control">
-                                <div class="select is-fullwidth">
-                                    <select name="country_code" id="region-country">
-                                        <option value="">{{tr.region-select-country}}</option>
-                                        <option value="ru">Russia</option>
-                                        <option value="ua">Ukraine</option>
-                                        <option value="de">Germany</option>
-                                        <option value="us">United States</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">{{tr.region-select-region}}</label>
-                            <div class="control">
-                                <div class="select is-fullwidth">
-                                    <select name="region_code" id="region-region" disabled>
-                                        <option value="">{{tr.region-select-region}}</option>
-                                    </select>
-                                </div>
+                                <input class="input" type="text" name="location" placeholder="{{tr.location-placeholder}}" />
                             </div>
                         </div>
 
