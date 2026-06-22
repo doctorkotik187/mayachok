@@ -102,17 +102,6 @@
 
 ;; -- Crisis resources (hardcoded, never fetched from API) --------------------
 
-(def crisis-resources
-  {:ru {:phone "8-800-2000-122"
-        :label "Телефон доверия (бесплатно)"
-        :spb   "004 — Экстренная психологическая помощь, Санкт-Петербург"}
-   :en {:phone "988"
-        :label "Suicide & Crisis Lifeline (US)"}
-   :de {:phone "0800-1110111"
-        :label "Telefonseelsorge (kostenlos)"}
-   :uk {:phone "7333"
-        :label "Гаряча лінія з питань домашнього насильства (безкоштовно)"}})
-
 ;; -- Scoring functions (pure, no I/O) ---------------------------------------
 ;; All options ordered least severe (index 0) to most severe (index 3).
 ;; Q1, Q2, Q4 are reverse-scored: score = 3 - index.

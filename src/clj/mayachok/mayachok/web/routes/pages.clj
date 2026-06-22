@@ -140,12 +140,11 @@
                      :lat nil :lng nil :location_text nil})
           (catch Exception e (log/error e "failed to save screening")))
         (let [risk   (:risk-level result)
-              crisis (get epds/crisis-resources (keyword locale) (epds/crisis-resources :ru))
               tr     (i18n/all-strings locale)]
           (layout/render request "result.html"
                          {:locale locale :total-score (:total-score result) :q10-score (:q10-score result)
                           :risk-level risk :risk-label (risk-label locale risk) :risk-color (risk-color risk)
-                          :recommendation (risk-rec locale risk) :crisis crisis
+                          :recommendation (risk-rec locale risk)
                           :show-crisis (pos? (:q10-score result)) :screening-id screening-id
                           :ts (str (System/currentTimeMillis))
                           :tr tr})))
@@ -178,17 +177,17 @@
       ;; Honeypot filled — silently accept, don't save
       honeypot?
       (do (log/warn "Bot: honeypot filled, ip=" ip)
-          (layout/render request "survey-thankyou.html" {:locale locale :tr tr}))
+          (layout/render request "thankyou.html" {:locale locale :tr tr :type "survey"}))
 
       ;; Rate limited — silently accept, don't save
       (not rate-ok?)
       (do (log/warn "Bot: rate limited, ip=" ip)
-          (layout/render request "survey-thankyou.html" {:locale locale :tr tr}))
+          (layout/render request "thankyou.html" {:locale locale :tr tr :type "survey"}))
 
       ;; Submitted too fast — silently accept, don't save
       (not time-ok?)
       (do (log/warn "Bot: submitted too fast, ip=" ip "ts=" ts)
-          (layout/render request "survey-thankyou.html" {:locale locale :tr tr}))
+          (layout/render request "thankyou.html" {:locale locale :tr tr :type "survey"}))
 
       ;; All checks passed — save normally
       :else
@@ -205,7 +204,7 @@
                 (log/warn "geocoding returned nil for location:" location))
               (catch Exception e
                 (log/error e "failed to geocode location")))))
-        (layout/render request "survey-thankyou.html" {:locale locale :tr tr})))))
+        (layout/render request "thankyou.html" {:locale locale :tr tr :type "survey"})))))
 
 ;; -- region ------------------------------------------------------------------
 
@@ -217,9 +216,10 @@
         query-fn   (utils/route-data-key request :query-fn)]
     (when (and country region)
       (query-fn :update-region! {:id id :region_code region}))
-    (layout/render request "region-thankyou.html"
+    (layout/render request "thankyou.html"
                    {:locale (or (get p "locale") "ru")
-                    :tr (i18n/all-strings (or (get p "locale") "ru"))})))
+                    :tr (i18n/all-strings (or (get p "locale") "ru"))
+                    :type "region"})))
 
 (defn- avg-score-color [avg]
   (cond

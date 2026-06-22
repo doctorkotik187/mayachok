@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{tr.app-name}}{% endblock %}
+
+{% block body %}
+<section class="section">
+    <div class="container has-text-centered">
+        <div class="card result-card">
+            <div class="card-content has-text-centered">
+                <div class="mascot">🐱</div>
+                <h1 class="title is-3">
+                    {% if type == "region" %}{{tr.region-thanks-title}}{% else %}{{tr.survey-thanks-title}}{% endif %}
+                </h1>
+                <p class="content">
+                    {% if type == "region" %}{{tr.region-thanks-text}}{% else %}{{tr.survey-thanks-text}}{% endif %}
+                </p>
+                <div class="buttons is-centered">
+                    {% if type == "region" %}
+                    <a class="button is-primary is-rounded" href="/">{{tr.retake}}</a>
+                    <a class="button is-light is-rounded" href="/map?locale={{locale}}">{{tr.region-view-map}}</a>
+                    {% else %}
+                    <a class="button is-primary is-rounded" href="/map?locale={{locale}}">{{tr.nav-map}}</a>
+                    <a class="button is-light is-rounded" href="/">{{tr.retake}}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

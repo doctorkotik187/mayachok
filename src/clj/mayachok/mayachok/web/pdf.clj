@@ -2,6 +2,7 @@
   (:require
    [clj-pdf.core :as pdf]
    [clojure.data.json :as json]
+   [clojure.edn :as edn]
    [clojure.java.io :as io]
    [mayachok.mayachok.domain.epds :as epds])
   (:import [java.io ByteArrayOutputStream]
@@ -19,6 +20,65 @@
 (def ^:private text-mid  [120 110 100])
 (def ^:private text-light [160 150 140])
 (def ^:private line-color [235 225 215])
+
+;; -- Help resources (loaded from EDN) ----------------------------------------
+
+(def ^:private help-resources
+  (edn/read-string (slurp (io/resource "help-resources.edn"))))
+
+(defn- get-help-resources [locale]
+  (get-in help-resources [:resources (keyword locale)]
+          (get-in help-resources [:resources :en])))
+
+(defn- build-help-page [tr locale]
+  (let [res (get-help-resources locale)]
+    (concat
+     [[:pagebreak]
+      [:paragraph {:size 16 :style :bold :ttf-name font-bold :color accent
+                   :spacing-after 10}
+       (:help-title tr)]]
+     ;; Crisis section
+     (when (seq (:crisis res))
+       (cons [:paragraph {:size 11 :style :bold :ttf-name font-bold :color [185 28 28]
+                          :spacing-after 4}
+              (:help-crisis-title tr)]
+             (map (fn [{:keys [name phone url hours description]}]
+                    [:pdf-table {:width-percent 100 :spacing-after 4 :cell-border false}
+                     [100]
+                     [[:pdf-cell {:background-color [254 226 226] :padding 6}
+                       [:paragraph {:size 8 :style :bold :ttf-name font-bold} name]
+                       (when phone [:paragraph {:size 8} (str "📞 " phone)])
+                       (when url [:paragraph {:size 8} (str "🌐 " url)])
+                       (when hours [:paragraph {:size 7 :color text-mid} hours])
+                       (when description [:paragraph {:size 7 :color text-mid} description])]]])
+                   (:crisis res))))
+     ;; Postpartum section
+     (when-let [pp (seq (:postpartum res))]
+       (cons [:paragraph {:size 11 :style :bold :ttf-name font-bold :color accent
+                          :spacing-after 4 :spacing-before 8}
+              (:help-postpartum-title tr)]
+             (map (fn [{:keys [name url description]}]
+                    [:pdf-table {:width-percent 100 :spacing-after 3 :cell-border false}
+                     [100]
+                     [[:pdf-cell {:background-color bg-page :padding 6}
+                       [:paragraph {:size 8 :style :bold :ttf-name font-bold} name]
+                       (when url [:paragraph {:size 8} (str "🌐 " url)])
+                       (when description [:paragraph {:size 7 :color text-mid} description])]]])
+                   pp)))
+     ;; Chat section
+     (when-let [ch (seq (:chat res))]
+       (cons [:paragraph {:size 11 :style :bold :ttf-name font-bold :color accent
+                          :spacing-after 4 :spacing-before 8}
+              (:help-chat-title tr)]
+             (map (fn [{:keys [name url hours description]}]
+                    [:pdf-table {:width-percent 100 :spacing-after 3 :cell-border false}
+                     [100]
+                     [[:pdf-cell {:background-color bg-page :padding 6}
+                       [:paragraph {:size 8 :style :bold :ttf-name font-bold} name]
+                       (when url [:paragraph {:size 8} (str "🌐 " url)])
+                       (when hours [:paragraph {:size 7 :color text-mid} hours])
+                       (when description [:paragraph {:size 7 :color text-mid} description])]]])
+                   ch))))))
 
 (defn- risk-color-rgb [risk-level]
   (case risk-level
@@ -121,25 +181,6 @@
      [:paragraph {:align :center :size 8 :color text-dark :leading 12}
       rec]]]])
 
-(defn- build-crisis [crisis-title label phone spb]
-  [:pdf-table {:width-percent 100
-               :spacing-after 6
-               :cell-border false}
-   [100]
-   [[:pdf-cell {:background-color [254 226 226]
-                :padding 8
-                :set-border [:left]
-                :border-width-left 3
-                :border-color [239 68 68]}
-     [:paragraph {:size 9 :style :bold :ttf-name font-bold :color [185 28 28]}
-      crisis-title]
-     [:paragraph {:size 8 :color [127 29 29]}
-      [:chunk {:style :bold :ttf-name font-bold} label]
-      (str " — " phone)]
-     (when spb
-       [:paragraph {:size 7 :color [153 27 27]}
-        spb])]]])
-
 (defn- build-survey [tr age-range time-since first-child location]
   (when (or age-range time-since first-child location)
     (vec
@@ -207,7 +248,6 @@
         risk-lbl    (risk-label locale risk-level)
         risk-rgb    (risk-color-rgb risk-level)
         rec         (risk-rec locale risk-level)
-        crisis      (get epds/crisis-resources (keyword locale))
         show-crisis (pos? q10-score)
         answers     (parse-answers (:answers s))
         timestamp   (format-timestamp (or (:created_at s) (str (java.util.Date.))))
@@ -276,12 +316,21 @@
              ;; score + risk
            (build-score-risk total-score risk-rgb risk-lbl rec)
 
-             ;; crisis alert
-           (when (and show-crisis crisis)
-             (build-crisis (:crisis-title tr)
-                           (:label crisis)
-                           (:phone crisis)
-                           (:spb crisis)))
+             ;; crisis alert — refers to page 2
+           (when show-crisis
+             [:pdf-table {:width-percent 100
+                          :spacing-after 6
+                          :cell-border false}
+              [100]
+              [[:pdf-cell {:background-color [254 226 226]
+                           :padding 8
+                           :set-border [:left]
+                           :border-width-left 3
+                           :border-color [239 68 68]}
+                [:paragraph {:size 9 :style :bold :ttf-name font-bold :color [185 28 28]}
+                 (:crisis-title tr)]
+                [:paragraph {:size 8 :color [127 29 29]}
+                 (:help-resources-page2 tr)]]]])
 
              ;; divider
            [:line {:color line-color :line-width 0.5}]
@@ -292,6 +341,10 @@
 
             ;; answers table (single element or nil)
           (keep identity [answers-block])
+
+            ;; help resources page (page 2, only for crisis)
+          (when show-crisis
+            (build-help-page tr locale))
 
             ;; footer
           [[:spacer 6]
