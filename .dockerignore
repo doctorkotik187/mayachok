@@ -7,7 +7,6 @@ env/test
 test
 *.md
 LICENSE
-Makefile
 bb.edn
 kit.edn
 .clj-kondo
