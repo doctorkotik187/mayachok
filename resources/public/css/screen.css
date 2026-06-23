@@ -184,6 +184,11 @@
   background-color: #ec4899;
   color: white;
   border: none;
+  white-space: normal;
+  height: auto;
+  word-break: break-word;
+  margin-top: 1rem;
+  display: inline-block;
 }
 
 .crisis-alert .button:hover {
