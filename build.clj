@@ -1,10 +1,10 @@
 (ns build
-  (:require [clojure.string :as string]
+  (:require [clojure.string :as str]
             [clojure.tools.build.api :as b]))
 
 (def lib 'mayachok/mayachok)
-(def main-cls (string/join "." (filter some? [(namespace lib) (name lib) "core"])))
-(def version (format "0.0.1-SNAPSHOT"))
+(def main-cls (str/join "." (filter some? [(namespace lib) (name lib) "core"])))
+(def version (str/trim (slurp "resources/VERSION")))
 (def target-dir "target")
 (def class-dir (str target-dir "/" "classes"))
 (def uber-file (format "%s/%s-standalone.jar" target-dir (name lib)))

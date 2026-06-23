@@ -89,7 +89,7 @@
     {:get {:no-doc  true
            :swagger {:info {:title "Mayachok API"
                            :description "Postpartum depression screening API"
-                           :version "1.0.0"}}
+                           :version "0.1.0"}}
            :handler (swagger/create-swagger-handler)}}]
    ["/api-docs/*"
     {:get (swagger-ui/create-swagger-ui-handler

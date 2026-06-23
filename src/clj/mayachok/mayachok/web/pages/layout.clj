@@ -1,6 +1,7 @@
 (ns mayachok.mayachok.web.pages.layout
   (:require
    [clojure.java.io]
+   [clojure.string :as str]
    [selmer.parser :as parser]
    [ring.util.http-response :refer [content-type ok]]
    [ring.util.anti-forgery :refer [anti-forgery-field]]
@@ -8,6 +9,12 @@
    [ring.util.response]))
 
 (def selmer-opts {:custom-resource-path (clojure.java.io/resource "html")})
+
+(defn- read-version []
+  (try
+    (some-> (clojure.java.io/resource "VERSION") slurp str/trim)
+    (catch Exception _
+      "unknown")))
 
 (defn init-selmer!
   [{:keys [env]}]
@@ -18,7 +25,10 @@
 (defn render
   [request template & [params]]
   (-> (parser/render-file template
-                          (assoc params :page template :csrf-token *anti-forgery-token*)
+                          (assoc params
+                                 :page template
+                                 :csrf-token *anti-forgery-token*
+                                 :version (read-version))
                           selmer-opts)
       (ok)
       (content-type "text/html; charset=utf-8")))
