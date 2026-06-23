@@ -64,3 +64,27 @@ SELECT
 FROM screenings
 GROUP BY location_text
 ORDER BY total DESC
+
+-- :name stats-global :? :1
+-- :doc global aggregate stats: total count, avg score, risk breakdown
+SELECT
+  COUNT(*) as total,
+  ROUND(AVG(total_score), 1) as avg_score,
+  SUM(CASE WHEN risk_level = 'self-harm-risk' THEN 1 ELSE 0 END) as self_harm_risk,
+  SUM(CASE WHEN risk_level = 'probable-depression' THEN 1 ELSE 0 END) as probable_depression,
+  SUM(CASE WHEN risk_level = 'possible-depression' THEN 1 ELSE 0 END) as possible_depression,
+  SUM(CASE WHEN risk_level = 'low-risk' THEN 1 ELSE 0 END) as low_risk
+FROM screenings
+
+-- :name stats-survey-breakdown :? :*
+-- :doc survey breakdown: age_range, time_since_birth, first_child counts
+SELECT
+  age_range,
+  time_since_birth,
+  first_child,
+  COUNT(*) as count
+FROM screenings
+WHERE age_range IS NOT NULL
+   OR time_since_birth IS NOT NULL
+   OR first_child IS NOT NULL
+GROUP BY age_range, time_since_birth, first_child
