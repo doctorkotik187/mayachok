@@ -51,7 +51,7 @@
                        (when url [:paragraph {:size 8} (str "🌐 " url)])
                        (when hours [:paragraph {:size 7 :color text-mid} hours])
                        (when description [:paragraph {:size 7 :color text-mid} description])]]])
-                   (:crisis res))))
+                  (:crisis res))))
      ;; Postpartum section
      (when-let [pp (seq (:postpartum res))]
        (cons [:paragraph {:size 11 :style :bold :ttf-name font-bold :color accent
@@ -64,7 +64,7 @@
                        [:paragraph {:size 8 :style :bold :ttf-name font-bold} name]
                        (when url [:paragraph {:size 8} (str "🌐 " url)])
                        (when description [:paragraph {:size 7 :color text-mid} description])]]])
-                   pp)))
+                  pp)))
      ;; Chat section
      (when-let [ch (seq (:chat res))]
        (cons [:paragraph {:size 11 :style :bold :ttf-name font-bold :color accent
@@ -78,7 +78,7 @@
                        (when url [:paragraph {:size 8} (str "🌐 " url)])
                        (when hours [:paragraph {:size 7 :color text-mid} hours])
                        (when description [:paragraph {:size 7 :color text-mid} description])]]])
-                   ch))))))
+                  ch))))))
 
 (defn- risk-color-rgb [risk-level]
   (case risk-level

@@ -236,8 +236,8 @@
                                :risk_color (avg-score-color (:avg_score row))))
                       raw)
         locale   (or (get-in request [:params :locale])
-                         (locale-from request)
-                         "ru")]
+                     (locale-from request)
+                     "ru")]
     (layout/render request "heatmap.html"
                    {:locale locale
                     :tr (i18n/all-strings locale)
@@ -268,7 +268,7 @@
 
         ai-prompt
         (let [template (get-in help-resources [:resources :_global :ai-prompt
-                                                (keyword (str "template-" locale))]
+                                               (keyword (str "template-" locale))]
                                (get-in help-resources [:resources :_global :ai-prompt :template-en]))]
           (if-let [s (when (and screening-id query-fn)
                        (let [result (query-fn :get-screening-by-id {:id screening-id})]
@@ -278,15 +278,15 @@
                   answers    (pdf/parse-answers (:answers s))
                   answer-str (when (seq answers)
                                (str/join "; "
-                                 (map (fn [{:keys [question answer]}]
-                                        (let [qd   (get qs question)
-                                              text (:text qd)
-                                              opts (:options qd)
-                                              label (if (and opts (<= 0 answer (dec (count opts))))
-                                                      (get opts answer)
-                                                      (str answer))]
-                                          (str "Q" question ": " text " → " label)))
-                                      answers)))]
+                                         (map (fn [{:keys [question answer]}]
+                                                (let [qd   (get qs question)
+                                                      text (:text qd)
+                                                      opts (:options qd)
+                                                      label (if (and opts (<= 0 answer (dec (count opts))))
+                                                              (get opts answer)
+                                                              (str answer))]
+                                                  (str "Q" question ": " text " → " label)))
+                                              answers)))]
               (log/info "AI prompt: score=" score "answers=" (count answers))
               (-> template
                   (str/replace "{{score}}" (str score))
@@ -298,15 +298,15 @@
 
     (log/info "Showing help page for locale:" locale)
     (layout/render request "help.html"
-      {:locale locale
-       :tr tr
-       :crisis (:crisis res)
-       :postpartum (:postpartum res)
-       :chat (:chat res)
-       :telegram (:telegram res)
-       :global (get-in help-resources [:resources :_global :directories])
-       :ai-prompt ai-prompt
-       :last-reviewed (:last-reviewed help-resources "06-2026")})))
+                   {:locale locale
+                    :tr tr
+                    :crisis (:crisis res)
+                    :postpartum (:postpartum res)
+                    :chat (:chat res)
+                    :telegram (:telegram res)
+                    :global (get-in help-resources [:resources :_global :directories])
+                    :ai-prompt ai-prompt
+                    :last-reviewed (:last-reviewed help-resources "06-2026")})))
 
 ;; -- pdf ---------------------------------------------------------------------
 

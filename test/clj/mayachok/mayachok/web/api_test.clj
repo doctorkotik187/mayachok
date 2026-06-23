@@ -138,16 +138,16 @@
       (is (= {:t 1 :f 1} (:first_child survey))))))
 
 (deftest stats-survey-nil-when-no-survey-data
-    (testing "Survey fields are nil when no survey data exists"
-      (clear-screenings!)
-      (screening-insert (answers-low) 9 0 :low-risk)
-      (let [handler (:handler/ring (system-state))
-            response (GET handler "/api/stats" {} {})
-            body     (parse-body response)
-            survey   (:survey body)]
-        (is (nil? (:age_range survey)))
-        (is (nil? (:time_since_birth survey)))
-        (is (nil? (:first_child survey))))))
+  (testing "Survey fields are nil when no survey data exists"
+    (clear-screenings!)
+    (screening-insert (answers-low) 9 0 :low-risk)
+    (let [handler (:handler/ring (system-state))
+          response (GET handler "/api/stats" {} {})
+          body     (parse-body response)
+          survey   (:survey body)]
+      (is (nil? (:age_range survey)))
+      (is (nil? (:time_since_birth survey)))
+      (is (nil? (:first_child survey))))))
 
 (deftest stats-regions-array
   (testing "Regions array contains aggregated location data"

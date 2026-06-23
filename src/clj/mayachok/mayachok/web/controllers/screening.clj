@@ -50,9 +50,9 @@
                      :q10_score   (:q10-score score-result)
                      :risk_level  (name (:risk-level score-result))})
           (audit :screening/created request {:screening-id screening-id
-                                              :locale locale
-                                              :risk-level (:risk-level score-result)
-                                              :total-score (:total-score score-result)})
+                                             :locale locale
+                                             :risk-level (:risk-level score-result)
+                                             :total-score (:total-score score-result)})
           (http-response/ok
            (assoc score-result :id screening-id)))
         (catch Exception e
