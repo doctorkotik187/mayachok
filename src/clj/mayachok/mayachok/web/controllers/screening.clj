@@ -23,10 +23,7 @@
   (let [query-fn   (utils/route-data-key request :query-fn)
         body       (:body request)
         answers    (:answers body)
-        locale     (or (:locale body) "ru")
-        mode       (or (:mode body) "clinician")
-        clinic-id  (:clinic_id body)
-        patient-ref (:patient_ref body)]
+        locale     (or (:locale body) "ru")]
     (if-not (validate-answers answers)
       (http-response/bad-request
        {:error "Invalid answers. Expected a vector of 10 maps with :question (1-10) and :answer (0-3)."})
@@ -38,13 +35,10 @@
                     {:id          screening-id
                      :created_at  now
                      :locale      locale
-                     :mode        mode
                      :answers     (json/write-str answers)
                      :total_score (:total-score score-result)
                      :q10_score   (:q10-score score-result)
-                     :risk_level  (name (:risk-level score-result))
-                     :clinic_id   clinic-id
-                     :patient_ref patient-ref})
+                     :risk_level  (name (:risk-level score-result))})
           (http-response/ok
            (assoc score-result :id screening-id)))
         (catch Exception e
