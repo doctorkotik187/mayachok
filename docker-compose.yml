@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   mayachok:
     image: ghcr.io/doctorkotik187/mayachok:latest
