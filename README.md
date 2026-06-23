@@ -73,10 +73,30 @@ Then in the REPL: `(go)` / `(halt)` / `(reset)`
 
 ## Self-Hosting
 
+### Docker (recommended)
+
+```bash
+docker-compose up -d
+```
+
+The app will be available at `http://localhost:3000`. Data is persisted in a Docker volume.
+
+### Manual
+
 1. Build: `clojure -T:build uber`
 2. Run: `java -jar target/mayachok-standalone.jar`
 3. SQLite DB is created automatically
-4. Optional: set `JDBC_URL` for a custom DB path
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | 3000 | HTTP port |
+| `HTTP_HOST` | 0.0.0.0 | Bind address |
+| `JDBC_URL` | (none) | Database path, e.g. `jdbc:sqlite:/app/data/mayachok.db` |
+| `COOKIE_SECRET` | (auto-generated) | Session cookie secret — set explicitly to persist sessions across restarts |
+| `MAYACHOK_RETENTION_DAYS` | 365 | Auto-delete screenings older than N days (0 to disable) |
+| `REPL_PORT` | 7000 | Socket REPL port (optional) |
 
 ---
 

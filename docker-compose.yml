@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  mayachok:
+    build: .
+    container_name: mayachok
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - mayachok-data:/app/data
+    environment:
+      - PORT=3000
+      - JDBC_URL=jdbc:sqlite:/app/data/mayachok.db
+      - MAYACHOK_RETENTION_DAYS=365
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  mayachok-data:

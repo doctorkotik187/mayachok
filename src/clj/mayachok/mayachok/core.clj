@@ -52,7 +52,17 @@
   ((or (:stop defaults) (fn [])))
   (some-> (deref system) (ig/halt!)))
 
+(defn- ensure-cookie-secret []
+  (when (or (nil? (System/getenv "COOKIE_SECRET"))
+            (= "" (System/getenv "COOKIE_SECRET")))
+    (let [generated (str (java.util.UUID/randomUUID)
+                         (java.util.UUID/randomUUID))]
+      (log/warn "COOKIE_SECRET not set — generating a random secret for this session")
+      (log/warn "Set COOKIE_SECRET env var to persist sessions across restarts")
+      (System/setProperty "COOKIE_SECRET" generated))))
+
 (defn start-app [& [params]]
+  (ensure-cookie-secret)
   ((or (:start params) (:start defaults) (fn [])))
   (->> (config/system-config (or (:opts params) (:opts defaults) {}))
        (ig/expand)

@@ -1,15 +1,27 @@
-# syntax = docker/dockerfile:1.2
-FROM clojure:openjdk-17 AS build
+FROM clojure:temurin-21 AS build
 
-WORKDIR /
-COPY . /
+WORKDIR /app
+COPY deps.edn build.clj ./
+COPY src/ src/
+COPY resources/ resources/
+COPY env/prod/resources/ env/prod/resources/
 
-RUN clj -Sforce -T:build all
+RUN clj -Sforce -T:build uber
 
-FROM azul/zulu-openjdk-alpine:17
+FROM eclipse-temurin:21-jre-jammy
 
-COPY --from=build /target/mayachok-standalone.jar /mayachok/mayachok-standalone.jar
+RUN useradd --system --create-home appuser
+WORKDIR /app
 
-EXPOSE $PORT
+COPY --from=build /app/target/mayachok-standalone.jar /app/mayachok.jar
 
-ENTRYPOINT exec java $JAVA_OPTS -jar /mayachok/mayachok-standalone.jar
+RUN mkdir -p /app/data && chown appuser:appuser /app/data
+
+USER appuser
+
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+  CMD wget -qO- http://localhost:3000/api/health || exit 1
+
+ENTRYPOINT ["java", "-jar", "/app/mayachok.jar"]
