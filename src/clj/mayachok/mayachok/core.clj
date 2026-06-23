@@ -1,6 +1,7 @@
 (ns mayachok.mayachok.core
   (:require
    [clojure.tools.logging :as log]
+   [clojure.string :as str]
    [integrant.core :as ig]
    [mayachok.mayachok.config :as config]
    [mayachok.mayachok.env :refer [defaults]]
@@ -25,6 +26,28 @@
 
 (defonce system (atom nil))
 
+(def ^:private default-retention-days 365)
+
+(defn- parse-retention-days []
+  (let [val (System/getenv "MAYACHOK_RETENTION_DAYS")]
+    (if (str/blank? val)
+      default-retention-days
+      (try
+        (Integer/parseInt val)
+        (catch Exception _
+          default-retention-days)))))
+
+(defn- run-cleanup []
+  (let [days (parse-retention-days)]
+    (when (pos? days)
+      (try
+        (let [query-fn (:db.sql/query-fn @system)]
+          (when query-fn
+            (query-fn :delete-old-screenings! {:days days})
+            (log/info "retention cleanup: deleted screenings older than" days "days")))
+        (catch Exception e
+          (log/error e "retention cleanup failed"))))))
+
 (defn stop-app []
   ((or (:stop defaults) (fn [])))
   (some-> (deref system) (ig/halt!)))
@@ -34,7 +57,8 @@
   (->> (config/system-config (or (:opts params) (:opts defaults) {}))
        (ig/expand)
        (ig/init)
-       (reset! system)))
+       (reset! system))
+  (run-cleanup))
 
 (defn -main [& _]
   (start-app)

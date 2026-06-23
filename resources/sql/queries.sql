@@ -2,6 +2,11 @@
 -- :doc deletes all screening records (for testing)
 DELETE FROM screenings
 
+-- :name delete-old-screenings! :! :n
+-- :doc deletes screenings older than the given number of days
+DELETE FROM screenings
+WHERE created_at < datetime('now', '-' || :days || ' days')
+
 -- :name create-screening! :! :n
 -- :doc inserts a new screening record
 INSERT INTO screenings (id, created_at, locale, answers, total_score, q10_score, risk_level, age_range, time_since_birth, first_child, lat, lng, location_text)
