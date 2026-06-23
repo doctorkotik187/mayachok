@@ -18,6 +18,16 @@
        (= (set (map :question answers))
           (set (range 1 11)))))
 
+(defn- client-ip [request]
+  (or (get-in request [:headers "x-forwarded-for"])
+      (:remote-addr request)))
+
+(defn- audit [event request data]
+  (log/info {:event event
+             :ip (client-ip request)
+             :timestamp (str (java.time.Instant/now))
+             :data data}))
+
 (defn create-screening!
   [request]
   (let [query-fn   (utils/route-data-key request :query-fn)
@@ -39,6 +49,10 @@
                      :total_score (:total-score score-result)
                      :q10_score   (:q10-score score-result)
                      :risk_level  (name (:risk-level score-result))})
+          (audit :screening/created request {:screening-id screening-id
+                                              :locale locale
+                                              :risk-level (:risk-level score-result)
+                                              :total-score (:total-score score-result)})
           (http-response/ok
            (assoc score-result :id screening-id)))
         (catch Exception e
@@ -64,6 +78,7 @@
         first-child (get form "first_child")]
     (try
       (query-fn :update-survey! {:id id :age_range age-range :time_since_birth time-since :first_child first-child})
+      (audit :screening/survey-updated request {:screening-id id})
       (http-response/ok {:ok true})
       (catch Exception e
         (log/error e "failed to update survey")

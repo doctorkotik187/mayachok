@@ -44,7 +44,7 @@
         (let [query-fn (:db.sql/query-fn @system)]
           (when query-fn
             (query-fn :delete-old-screenings! {:days days})
-            (log/info "retention cleanup: deleted screenings older than" days "days")))
+            (log/info {:event :retention/cleanup :days days})))
         (catch Exception e
           (log/error e "retention cleanup failed"))))))
 

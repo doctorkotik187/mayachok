@@ -92,6 +92,9 @@
 (defn- stats-handler [request]
   (let [query-fn (utils/route-data-key request :query-fn)]
     (try
+      (log/info {:event :stats/accessed
+                 :ip (or (get-in request [:headers "x-forwarded-for"]) (:remote-addr request))
+                 :timestamp (str (java.time.Instant/now))})
       (let [global      (or (query-fn :stats-global {}) {})
             survey-rows (query-fn :stats-survey-breakdown {})
             regions     (query-fn :heatmap-data {})]
@@ -137,6 +140,9 @@
 (defn- export-handler [request]
   (let [query-fn (utils/route-data-key request :query-fn)]
     (try
+      (log/info {:event :data/exported
+                 :ip (or (get-in request [:headers "x-forwarded-for"]) (:remote-addr request))
+                 :timestamp (str (java.time.Instant/now))})
       (let [screenings (query-fn :list-screenings-stats {})
             csv (screenings-to-csv screenings)]
         {:status 200
