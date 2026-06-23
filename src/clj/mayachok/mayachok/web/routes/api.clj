@@ -14,6 +14,40 @@
    [reitit.swagger-ui :as swagger-ui]
    [ring.util.http-response :as http-response]))
 
+;; -- rate limiter (in-memory, per-IP) ---------------------------------------
+
+(def ^:private api-rate-limiter (atom {}))
+
+(def ^:private api-max-requests-per-minute 60)
+
+(defn- api-rate-limit-check [ip]
+  (let [now (System/currentTimeMillis)
+        minute-ago (- now (* 60 1000))]
+    (swap! api-rate-limiter
+           (fn [m]
+             (let [timestamps (get m ip [])
+                   recent    (filterv #(> % minute-ago) timestamps)]
+               (if (>= (count recent) api-max-requests-per-minute)
+                 m
+                 (assoc m ip (conj recent now))))))
+    (< (count (get @api-rate-limiter ip [])) api-max-requests-per-minute)))
+
+(defn reset-api-rate-limiter! []
+  (reset! api-rate-limiter {}))
+
+(defn- wrap-api-rate-limit [handler]
+  (fn [request]
+    (let [ip (or (get-in request [:headers "x-forwarded-for"])
+                 (:remote-addr request))]
+      (if (api-rate-limit-check ip)
+        (handler request)
+        (do (log/warn "API rate limited, ip=" ip)
+            {:status 429
+             :headers {"Content-Type" "application/json"}
+             :body "{\"error\":\"Too many requests. Please slow down.\"}"})))))
+
+;; -- route data --------------------------------------------------------------
+
 (defn- route-data [opts]
   (merge
    {:coercion   malli/coercion
@@ -96,10 +130,10 @@
            {:url "/api/swagger.json"
             :config {:validator-url nil}})}]
    ["/health"
-    {:get {:handler #'health/healthcheck!
+    {:get {:handler (-> #'health/healthcheck! wrap-api-rate-limit)
            :summary "Health check"}}]
    ["/stats"
-    {:get {:handler #'stats-handler
+    {:get {:handler (-> #'stats-handler wrap-api-rate-limit)
            :summary "Screening statistics"}}]])
 
 (derive :reitit.routes/api :reitit/routes)
