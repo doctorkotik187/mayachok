@@ -9,7 +9,7 @@ structured score with clear guidance.
 It is not an AI. It does not generate advice. It runs a questionnaire and
 returns a number. That number can save lives.
 
-**License:** AGPL-3.0 — libre and open source, always.
+**Version:** 0.1.0 · **License:** AGPL-3.0 — libre and open source, always.
 
 ---
 
@@ -32,7 +32,7 @@ language, with or without internet.
 - **A screening tool**, not a diagnosis. It tells you whether to seek help.
 - **Anonymous by default.** No names, no accounts, no tracking.
 - **Self-hostable.** Run it on a clinic laptop, a Raspberry Pi, or a cloud server.
-- **Multilingual.** Russian, English, German — more welcome.
+- **Multilingual.** Russian, English, German, Ukrainian — more welcome.
 - **Open source.** AGPL-3.0. Fork it, modify it, publish your changes.
 
 ---
@@ -40,8 +40,8 @@ language, with or without internet.
 ## Stack
 
 - **Backend:** Clojure · Kit · Integrant · Reitit · HugSQL · SQLite
-- **Frontend:** Server-rendered Selmer templates · Bulma CSS · HTMX
-- **i18n:** Handbook translations (RU/EN/DE)
+- **Frontend:** Server-rendered Selmer templates · Bulma CSS
+- **i18n:** Validated EPDS translations (RU/EN/DE/UK)
 - **Deploy:** Single uberjar, single SQLite file, zero external dependencies
 
 ---
@@ -70,21 +70,28 @@ Then in the REPL:
 
 - Full EPDS with correct scoring (reverse-scored Q1, Q2, Q4)
 - Q10 safety alert — always surfaces for self-harm ideation regardless of total score
-- Anonymous optional survey (age, time since birth, first child)
+- Anonymous optional survey (age range, time since birth, first child)
+- Optional location input for aggregate regional statistics
 - SQLite persistence for self-hosted deployments
+- Aggregate statistics API (`/api/stats`) for medical professionals
+- Heatmap page showing regional screening data
+- Crisis resources page (`/help`) with hotlines, chats, Telegram, AI prompt
+- PDF export of screening results
 - Beautiful, responsive UI via Bulma
 - Dark mode support (respects system preference)
-- Printable results
+- 40 passing tests covering scoring, risk levels, and API
 
 ---
 
 ## Roadmap
 
-- [ ] `/resources` page — crisis hotlines, therapist directories by country
-- [ ] PDF export of screening results
-- [ ] Aggregate statistics page for self-hosted instances
-- [ ] More languages (French, Spanish, Ukrainian…)
+- [x] `/help` page — crisis hotlines, therapist directories, Telegram, AI chat prompt
+- [x] PDF export of screening results
+- [x] Aggregate statistics API and heatmap page
+- [x] Ukrainian translation
 - [ ] PWA manifest for offline use
+- [ ] Aggregate statistics dashboard (web UI, not just API)
+- [ ] Docker image for easier self-hosting
 
 ---
 
@@ -115,6 +122,14 @@ it's the first child. No PII is stored. Clinics can use `clinic_id` and
 `patient_ref` fields for their own opaque patient references.
 
 ---
+
+## API
+
+- `POST /api/screenings` — submit a screening (returns score + risk level)
+- `GET /api/screenings/:id` — fetch a single screening by ID
+- `GET /api/stats` — aggregate statistics (risk breakdown, survey demographics, regional heatmap)
+- `GET /api/health` — health check with version info
+- Swagger docs at `/api/api-docs/index.html`
 
 ## Credits
 

@@ -26,18 +26,24 @@ This is **not** a chatbot. It does not generate advice. It runs a validated ques
 - Landing page → 10-question EPDS flow → result page with score + risk level
 - Q10 safety alert (always surfaces for self-harm ideation)
 - Anonymous optional survey (age range, time since birth, first child)
+- Optional location input for regional aggregate statistics
 - SQLite persistence for self-hosted deployments
-- 3 languages: Russian, English, German
+- 4 languages: Russian, English, German, Ukrainian (`:ru` `:en` `:de` `:uk`)
 - Bulma CSS, responsive, dark mode support
 - Correct EPDS scoring with reverse-scored questions (Q1, Q2, 4)
-- Tests: 20 passing, covering scoring boundaries and risk levels
+- `/help` page (crisis hotlines, therapist directories, Telegram channels, AI chat prompt)
+- PDF export of results
+- Heatmap page (`/map`) showing regional screening data
+- Aggregate statistics API (`/api/stats`) with risk breakdown, survey demographics, and regional data
+- API health endpoint (`/api/health`) with version info
+- Swagger API docs at `/api/api-docs/index.html`
+- Version displayed in page footer
+- Tests: 40 passing, covering scoring, risk levels, API, and health endpoint
 
 **Not yet built:**
-- [x] `/help` page (crisis hotlines, therapist directories by country, Telegram channels, AI chat prompt)
-- [x] PDF export of results
-- [ ] Aggregate statistics page
 - [ ] PWA manifest / offline support
-- [ ] Additional languages
+- [ ] Aggregate statistics dashboard (web UI, not just API)
+- [ ] Docker image for easier self-hosting
 
 ---
 
@@ -47,10 +53,12 @@ This is **not** a chatbot. It does not generate advice. It runs a validated ques
 mayachok/
 ├── AGENTS.md                              ← you are here
 ├── README.md                              ← project overview and docs
-├── deps.edn                               ← Clojure deps (kit-sql + sqlite added)
-├── build.clj                              ← uberjar build (clojure -T:build uber)
+├── VERSION                                ← current version (single source of truth)
+├── deps.edn                               ← Clojure deps
+├── build.clj                              ← uberjar build (reads VERSION)
 ├── resources/
 │   ├── system.edn                         ← Integrant system config
+│   ├── VERSION                            ← copied here for classpath access at runtime
 │   ├── sql/
 │   │   └── queries.sql                    ← ALL database queries (HugSQL)
 │   ├── help-resources.edn                 ← Help page resources (editable by community)
@@ -61,28 +69,36 @@ mayachok/
 │   ├── img/pink-sharky.png
 │   └── css/screen.css                     ← Minimal custom CSS (animations, option cards)
 ├── resources/html/                        ← Selmer templates
-│   ├── base.html                          ← HTML skeleton (Bulma CDN, blocks)
+│   ├── base.html                          ← HTML skeleton (Bulma CDN, version in footer)
 │   ├── home.html                          ← Landing page
 │   ├── question.html                      ← Single question (radio options, progress)
 │   ├── result.html                        ← Score + risk + crisis alert + survey
 │   ├── help.html                          ← Resources page (hotlines, chat, Telegram, AI prompt)
+│   ├── map.html                           ← Heatmap of regional screening data
+│   ├── thankyou.html                      ← Survey/region submission confirmation
 │   └── error.html                         ← Error page
 ├── src/clj/mayachok/mayachok/
 │   ├── core.clj                           ← System init, (go) / (halt) / (reset)
 │   ├── config.clj                         ← Aero config loading
 │   └── web/
 │       ├── routes/
-│       │   ├── api.clj                    ← API routes (POST/GET screenings)
-│       │   └── pages.clj                  ← Page routes (landing, question, result)
+│       │   ├── api.clj                    ← API routes (screenings, stats, health)
+│       │   └── pages.clj                  ← Page routes (landing, question, result, etc.)
 │       ├── controllers/
-│       │   ├── health.clj                 ← GET /api/health
+│       │   ├── health.clj                 ← GET /api/health (with version)
 │       │   └── screening.clj             ← POST/GET /api/screenings
+│       ├── domain/
+│       │   └── epds.clj                   ← Scoring logic + validated questions (RU/EN/DE/UK)
 │       ├── middleware/                    ← Ring middleware stack
 │       ├── pages/
-│       │   └── layout.clj                 ← Selmer render + error page
-│       └── i18n.clj                       ← Translation maps (RU/EN/DE)
+│       │   └── layout.clj                 ← Selmer render + version injection + error page
+│       └── i18n.clj                       ← Translation maps (RU/EN/DE/UK)
 └── test/clj/mayachok/mayachok/
-    └── domain/epds_test.clj               ← Scoring + risk level tests
+    ├── test_utils.clj                     ← Test helpers (system fixture, GET/POST)
+    ├── domain/epds_test.clj               ← Scoring + risk level tests
+    └── web/
+        ├── api_test.clj                   ← Stats API + health endpoint tests
+        └── request_test.clj               ← HTTP request integration tests
 ```
 
 ---
@@ -96,6 +112,19 @@ clojure -T:build uber  # build production uberjar
 ```
 
 In the REPL: `(go)` / `(halt)` / `(reset)`
+
+---
+
+## Versioning
+
+Version is maintained in the `VERSION` file at project root (also copied to `resources/` for runtime access). It's a single source of truth consumed by:
+
+- `build.clj` — uberjar build
+- `layout.clj` — page footer (`v0.1.0`)
+- `health.clj` — `/api/health` endpoint
+- `api.clj` — Swagger API spec
+
+Bump by editing `VERSION`. Use SemVer: `0.x.x` for development, `1.0.0` for first stable release.
 
 ---
 
@@ -114,10 +143,11 @@ In the REPL: `(go)` / `(halt)` / `(reset)`
 | ≥ 10 | possible-depression | Follow up within 2 weeks |
 | < 10 | low-risk | Routine follow-up |
 
-**Crisis resources (hardcoded, never fetched from API):**
+**Crisis resources (editable in `help-resources.edn`):**
 - RU: 8-800-2000-122 (Телефон доверия), 004 (Санкт-Петербург)
 - EN: 988 (Suicide & Crisis Lifeline, US)
 - DE: 0800-1110111 (Telefonseelsorge)
+- UK: 7333 (Ланінг), 0 800 500 225 (Міжнародний фонд України)
 
 ---
 
@@ -137,7 +167,10 @@ CREATE TABLE screenings (
   time_since_birth TEXT,                   -- optional survey
   first_child     TEXT,                    -- optional survey
   clinic_id       TEXT,                    -- optional, for multi-clinic
-  patient_ref     TEXT                     -- optional opaque reference
+  patient_ref     TEXT,                    -- optional opaque reference
+  lat             REAL,                    -- optional geolocation
+  lng             REAL,                    -- optional geolocation
+  location_text   TEXT                     -- optional, e.g. "Saint Petersburg, Russia"
 );
 ```
 
@@ -145,11 +178,40 @@ No PII stored by default. `patient_ref` is an opaque clinic-assigned reference, 
 
 ---
 
+## API Reference
+
+### `GET /api/health`
+Health check. Returns `{time, up_since, version, app: {status, message}}`.
+
+### `POST /api/screenings`
+Submit a completed screening. Body: `{answers: [{question: 1-10, answer: 0-3}, ...]}`. Returns `{total_score, q10_score, risk_level, id}`.
+
+### `GET /api/screenings/:id`
+Fetch a single screening by UUID.
+
+### `GET /api/stats`
+Aggregate statistics for medical professionals. Returns:
+```json
+{
+  "total": 42,
+  "avg_score": 12.3,
+  "risk": {"low-risk": 10, "possible-depression": 15, "probable-depression": 12, "self-harm-risk": 5},
+  "survey": {"age_range": {"25-34": 20}, "time_since_birth": {"0-6w": 10}, "first_child": {"t": 25, "f": 17}},
+  "regions": [{"region": "Saint Petersburg, Russia", "total": 20, "avg_score": 11.5, "self_harm_count": 2, "lat": 59.93, "lng": 30.32}]
+}
+```
+
+Available SQL queries in `resources/sql/queries.sql` — all HugSQL.
+
+---
+
 ## Adding a Translation
 
-1. Add the locale key to `translations` in `i18n.clj` (same structure as `:ru` and `:en`)
+Supported locales: `:ru`, `:en`, `:de`, `:uk`. To add a new language:
+
+1. Add the locale key to `translations` in `i18n.clj` (same structure as existing locales)
 2. Add EPDS questions to `questions` in `epds.clj` — validated translation only, with options ordered to match scoring direction
-3. Add risk labels and recommendations in `pages.clj`
+3. Add language-specific strings in `pages.clj` (risk labels, recommendations)
 4. Add language switch link in `home.html`
 
 ---

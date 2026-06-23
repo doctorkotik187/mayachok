@@ -1,0 +1,20 @@
+{
+  "name": "Mayachok — Edinburgh Postnatal Depression Scale",
+  "short_name": "Mayachok",
+  "description": "Libre postpartum depression screening. Anonymous by default.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#48c78e",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/img/pink-sharky.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical"],
+  "lang": "en"
+}
