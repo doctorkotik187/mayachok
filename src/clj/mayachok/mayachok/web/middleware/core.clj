@@ -6,11 +6,11 @@
 
 (def ^:private csp-header
   (str "default-src 'self'; "
-       "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-       "script-src 'self' 'unsafe-inline'; "
-       "img-src 'self' data:; "
+       "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://*.unpkg.com; "
+       "script-src 'self' 'unsafe-inline' https://unpkg.com https://*.unpkg.com; "
+       "img-src 'self' data: https://unpkg.com https://*.unpkg.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com; "
        "font-src 'self' https://cdn.jsdelivr.net; "
-       "connect-src 'self'; "
+       "connect-src 'self' https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com; "
        "frame-ancestors 'none'"))
 
 (defn- wrap-csp [handler]

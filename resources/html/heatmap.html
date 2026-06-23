@@ -64,6 +64,10 @@
 
         <div class="has-text-centered" style="margin-top: 2rem;">
             <a class="button is-primary is-rounded" href="/">{{tr.retake}}</a>
+            {% if data %}
+            &nbsp;
+            <a class="button is-light is-rounded" href="/api/export">📥 Download CSV</a>
+            {% endif %}
         </div>
     </div>
 </section>

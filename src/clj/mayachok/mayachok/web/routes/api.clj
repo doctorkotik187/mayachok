@@ -4,6 +4,7 @@
    [mayachok.mayachok.web.middleware.exception :as exception]
    [mayachok.mayachok.web.middleware.formats :as formats]
    [mayachok.mayachok.web.routes.utils :as utils]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
    [integrant.core :as ig]
    [reitit.coercion.malli :as malli]
@@ -116,6 +117,36 @@
         (log/error e "failed to fetch stats")
         (http-response/internal-server-error {:error "Failed to fetch stats"})))))
 
+;; -- export ------------------------------------------------------------------
+
+(defn- csv-escape [s]
+  (if (string? s)
+    (str "\"" (str/replace s "\"" "\"\"") "\"")
+    (str s)))
+
+(defn- screenings-to-csv [screenings]
+  (let [headers ["id" "created_at" "locale" "total_score" "q10_score" "risk_level"
+                 "age_range" "time_since_birth" "first_child" "location_text"]
+        rows (map (fn [s]
+                    (map #(csv-escape (get s (keyword %) "")) headers))
+                  screenings)]
+    (str/join "\n"
+              (cons (str/join "," headers)
+                    (map #(str/join "," %) rows)))))
+
+(defn- export-handler [request]
+  (let [query-fn (utils/route-data-key request :query-fn)]
+    (try
+      (let [screenings (query-fn :list-screenings-stats {})
+            csv (screenings-to-csv screenings)]
+        {:status 200
+         :headers {"Content-Type" "text/csv; charset=utf-8"
+                   "Content-Disposition" "attachment; filename=\"mayachok-screenings.csv\""}
+         :body csv})
+      (catch Exception e
+        (log/error e "failed to export screenings")
+        (http-response/internal-server-error {:error "Failed to export data"})))))
+
 ;; -- routes ------------------------------------------------------------------
 
 (defn- api-routes []
@@ -134,7 +165,10 @@
            :summary "Health check"}}]
    ["/stats"
     {:get {:handler (-> #'stats-handler wrap-api-rate-limit)
-           :summary "Screening statistics"}}]])
+           :summary "Screening statistics"}}]
+   ["/export"
+    {:get {:handler #'export-handler
+           :summary "Export all screenings as CSV"}}]])
 
 (derive :reitit.routes/api :reitit/routes)
 
