@@ -75,7 +75,7 @@
         :options ["Ні, зовсім ні" "Не дуже часто" "Так, досить часто" "Так, більшу частину часу"]}
     9  {:text "Я була настільки нещасною, що плакала"
         :options ["Ні, ніколи" "Тільки іноді" "Так, досить часто" "Так, більшу частину часу"]}
-    10 {:text "Мені приходили думки про подання собі шкоди"
+    10 {:text "Мені приходили думки про заподіяння собі шкоди"
         :options ["Ніколи" "Майже ніколи" "Іноді" "Так, досить часто"]}}
 
    :de
@@ -90,14 +90,14 @@
     5  {:text "Ich habe mich ohne Grund gefürchtet oder panisch gefühlt"
         :options ["Nein, überhaupt nicht" "Nicht sehr oft" "Ja, manchmal" "Ja, ziemlich oft"]}
     6  {:text "Alles hat sich aufgestaut"
-        :options ["Nein, ich habe wie immer gut zurechtkommen" "Nein, die meiste Zeit habe ich gut zurechtkommen" "Ja, manchmal konnte ich nicht so gut zurechtkommen wie sonst" "Ja, die meiste Zeit konnte ich nicht zurechtkommen"]}
+        :options ["Nein, ich bin wie immer gut zurechtgekommen" "Nein, die meiste Zeit bin ich gut zurechtgekommen" "Ja, manchmal konnte ich nicht so gut zurechtkommen wie sonst" "Ja, die meiste Zeit konnte ich nicht zurechtkommen"]}
     7  {:text "Ich war so unglücklich, dass ich Schlafprobleme hatte"
         :options ["Nein, überhaupt nicht" "Nicht sehr oft" "Ja, manchmal" "Ja, die meiste Zeit"]}
     8  {:text "Ich habe mich traurig und elend gefühlt"
         :options ["Nein, überhaupt nicht" "Nicht sehr oft" "Ja, ziemlich oft" "Ja, die meiste Zeit"]}
     9  {:text "Ich war so unglücklich, dass ich geweint habe"
         :options ["Nein, nie" "Nur gelegentlich" "Ja, ziemlich oft" "Ja, die meiste Zeit"]}
-    10 {:text "Mir ist es gekommen, mir selbst Schaden zuzufügen"
+    10 {:text "Der Gedanke, mir selbst Schaden zuzufügen, ist mir in den Sinn gekommen"
         :options ["Nie" "Kaum je" "Manchmal" "Ja, ziemlich oft"]}}})
 
 ;; -- Crisis resources (hardcoded, never fetched from API) --------------------
